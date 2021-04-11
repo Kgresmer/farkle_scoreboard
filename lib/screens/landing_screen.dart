@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class LandingScreen extends StatelessWidget {
   static const routeName = '/landing';
 
-  void scoreAGame(BuildContext ctx) {
+  void navToScoreAGame(BuildContext ctx) {
     Navigator.of(ctx).pushNamed(FillRosterScreen.routeName);
   }
 
@@ -41,7 +41,7 @@ class LandingScreen extends StatelessWidget {
                             child: TextButton(
                                 style: TextButton.styleFrom(
                                     backgroundColor: Colors.deepOrange, textStyle: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
-                                onPressed: () => scoreAGame(context),
+                                onPressed: () => navToScoreAGame(context),
                                 child: Text('Score A Game'))),
                       ]),
                   SizedBox(
