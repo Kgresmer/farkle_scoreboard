@@ -6,13 +6,17 @@ class ScoreboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: null,
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        leading: Icon(Icons.arrow_back),
+        title: Text('Farkle Scoreboard'),
+      ),
       body: Column(
         children: <Widget>[
           Container(
             height: 300,
             width: double.infinity,
-            child: Text('Scoreboard Screen', style: Theme.of(context).textTheme.bodyText1,),
+            child: Text('Scoreboard Screen', style: Theme.of(context).textTheme.bodyText2,),
           ),
         ],
       ),

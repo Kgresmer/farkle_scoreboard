@@ -1,3 +1,4 @@
+import './set_player_order_screen.dart';
 import './add_existing_player_screen.dart';
 import '../models/Player.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,10 @@ class FillRosterScreen extends StatelessWidget {
 
   void navToAddExistingPlayers(BuildContext ctx) {
     Navigator.of(ctx).pushNamed(AddExistingPlayerScreen.routeName);
+  }
+
+  void navToSetPlayerOrder(BuildContext ctx) {
+    Navigator.of(ctx).pushNamed(SetPlayerOrderScreen.routeName);
   }
 
   final List<Player> _roster = [
@@ -132,7 +137,7 @@ class FillRosterScreen extends StatelessWidget {
                                     textStyle: TextStyle(
                                         fontSize: 30,
                                         fontWeight: FontWeight.bold)),
-                                onPressed: () => {},
+                                onPressed: () => navToSetPlayerOrder(context),
                                 child: Text('Ready'))),
                       ]),
                 ],

@@ -62,7 +62,6 @@ class _AddExistingPlayerScreenState extends State<AddExistingPlayerScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print('got in here');
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -163,7 +162,7 @@ class _AddExistingPlayerScreenState extends State<AddExistingPlayerScreen> {
                                 backgroundColor: Colors.deepOrange,
                                 textStyle: TextStyle(
                                     fontSize: 30, fontWeight: FontWeight.bold)),
-                            onPressed: () => {},
+                            onPressed: () => backToFillYourRoster(context),
                             child: Text('Done'))),
                   ]),
             ),
