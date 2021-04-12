@@ -1,11 +1,15 @@
 import './scoreboard_screen.dart';
-
 import '../models/Player.dart';
 import 'package:flutter/material.dart';
 
-class SetPlayerOrderScreen extends StatelessWidget {
+class SetPlayerOrderScreen extends StatefulWidget {
   static const routeName = '/set-player-order';
 
+  @override
+  _SetPlayerOrderScreenState createState() => _SetPlayerOrderScreenState();
+}
+
+class _SetPlayerOrderScreenState extends State<SetPlayerOrderScreen> {
   final List<Player> _roster = [
     Player(name: 'Kevin', color: 1, wins: 5, losses: 1, bestScore: 10200),
     Player(name: 'Sigrid', color: 2, wins: 1, losses: 5, bestScore: 9900),
@@ -34,15 +38,37 @@ class SetPlayerOrderScreen extends StatelessWidget {
                 height: constraints.maxHeight * .04,
                 child: Center(
                   child: Text('click, hold and drag to change the order',
-                      style: Theme
-                          .of(context)
-                          .textTheme
-                          .bodyText2),)
-            ),
+                      style: Theme.of(context).textTheme.bodyText2),
+                )),
             Container(
-              height: constraints.maxHeight * .84,
-              child: Center(child: Text('drag and drop'))
-            ),
+                height: constraints.maxHeight * .84,
+                child: ReorderableListView(
+                  children: List.generate(_roster.length, (index) {
+                    return Card(
+                        key: UniqueKey(),
+                        elevation: 5,
+                        margin: const EdgeInsets.symmetric(
+                          vertical: 8,
+                          horizontal: 5,
+                        ),
+                        child: ListTile(contentPadding: EdgeInsets.symmetric(horizontal: 50),
+                            title: Text(_roster[index].name,
+                                style: Theme
+                                    .of(context)
+                                    .textTheme
+                                    .headline6),
+                            trailing: Icon(Icons.zoom_out_map)));
+                  }),
+                  onReorder: (int oldIndex, int newIndex) {
+                    setState(() {
+                      if (newIndex > oldIndex) {
+                        newIndex -= 1;
+                      }
+                      final Player newPlayer = _roster.removeAt(oldIndex);
+                      _roster.insert(newIndex, newPlayer);
+                    });
+                  },
+                )),
             Container(
               height: constraints.maxHeight * .12,
               width: double.infinity,
