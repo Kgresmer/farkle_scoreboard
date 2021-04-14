@@ -22,10 +22,10 @@ class _NewPlayerState extends State<NewPlayer> {
         elevation: 5,
         child: Container(
           padding: EdgeInsets.only(
-              top: 10,
+              top: 25,
               bottom: MediaQuery.of(context).viewInsets.bottom + 30,
               left: 10,
-              right: 10),
+              right: 25),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
@@ -33,25 +33,35 @@ class _NewPlayerState extends State<NewPlayer> {
                 cursorColor: Colors.teal,
                 decoration: InputDecoration(
                     labelText: 'Player Name:',
-                    icon: Icon(Icons.account_circle, size: 35, color: Colors.teal,),
-                    labelStyle: TextStyle(fontSize: 24, color: Colors.teal, ),
+                    icon: Icon(
+                      Icons.account_circle,
+                      size: 35,
+                      color: Colors.teal,
+                    ),
+                    labelStyle: TextStyle(
+                      fontSize: 24,
+                      color: Colors.teal,
+                      height: 0.2
+                    ),
                     enabledBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: Colors.teal)),
                     focusedBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: Colors.teal))),
                 controller: _nameController,
                 autofocus: true,
-                
                 onSubmitted: (_) => _submitData(),
               ),
-              RaisedButton(
-                  child: Text(
-                    'Add Player',
-                    style: TextStyle(fontSize: 18),
-                  ),
-                  color: Theme.of(context).accentColor,
-                  textColor: Colors.white,
-                  onPressed: _submitData)
+              Padding(
+                padding: EdgeInsets.only(top: 15),
+                child: RaisedButton(
+                    child: Text(
+                      'Add Player',
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    color: Theme.of(context).accentColor,
+                    textColor: Colors.white,
+                    onPressed: _submitData),
+              )
             ],
           ),
         ),
