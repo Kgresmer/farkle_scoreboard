@@ -33,13 +33,15 @@ class _NewPlayerState extends State<NewPlayer> {
                 cursorColor: Colors.teal,
                 decoration: InputDecoration(
                     labelText: 'Player Name:',
-                    labelStyle: TextStyle(fontSize: 24, color: Colors.teal),
+                    icon: Icon(Icons.account_circle, size: 35, color: Colors.teal,),
+                    labelStyle: TextStyle(fontSize: 24, color: Colors.teal, ),
                     enabledBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: Colors.teal)),
                     focusedBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: Colors.teal))),
                 controller: _nameController,
                 autofocus: true,
+                
                 onSubmitted: (_) => _submitData(),
               ),
               RaisedButton(
