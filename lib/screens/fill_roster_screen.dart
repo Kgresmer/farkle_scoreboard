@@ -1,3 +1,5 @@
+import 'package:farkle_scoreboard/widgets/new_player.dart';
+
 import './set_player_order_screen.dart';
 import './add_existing_player_screen.dart';
 import '../models/Player.dart';
@@ -23,6 +25,19 @@ class FillRosterScreen extends StatelessWidget {
     Player(name: 'Sigrid', color: 2, wins: 1, losses: 5, bestScore: 9900),
     Player(name: 'Sigrid', color: 2, wins: 1, losses: 5, bestScore: 9900),
   ];
+
+  void addNewPlayer(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        builder: (_) {
+          return GestureDetector(
+            onTap: () {},
+            child: NewPlayer(),
+            behavior: HitTestBehavior.opaque,
+          );
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -118,7 +133,7 @@ class FillRosterScreen extends StatelessWidget {
                               style: TextButton.styleFrom(
                                   backgroundColor: Colors.teal,
                                   textStyle: TextStyle(fontSize: 18)),
-                              onPressed: () {},
+                              onPressed: () => addNewPlayer(context),
                               child: Text('Add New Player')))
                     ],
                   ),
