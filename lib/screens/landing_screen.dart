@@ -1,10 +1,12 @@
 import './fill_roster_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class LandingScreen extends StatelessWidget {
   static const routeName = '/landing';
 
   void navToScoreAGame(BuildContext ctx) {
+    HapticFeedback.heavyImpact();
     Navigator.of(ctx).pushNamed(FillRosterScreen.routeName);
   }
 

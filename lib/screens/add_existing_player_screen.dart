@@ -2,6 +2,7 @@ import './fill_roster_screen.dart';
 import '../models/Player.dart';
 import '../models/ExistingPlayer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class AddExistingPlayerScreen extends StatefulWidget {
   static const routeName = '/add-existing-player';
@@ -13,6 +14,7 @@ class AddExistingPlayerScreen extends StatefulWidget {
 class _AddExistingPlayerScreenState extends State<AddExistingPlayerScreen> {
 
   void backToFillYourRoster(BuildContext ctx) {
+    HapticFeedback.heavyImpact();
     Navigator.of(ctx).pushNamed(FillRosterScreen.routeName);
   }
 
@@ -55,6 +57,7 @@ class _AddExistingPlayerScreenState extends State<AddExistingPlayerScreen> {
   ];
 
   void selectPlayer(int index) {
+    HapticFeedback.heavyImpact();
     setState(() {
       _existingPlayers[index].selected = !_existingPlayers[index].selected;
     });

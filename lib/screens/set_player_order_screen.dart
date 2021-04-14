@@ -1,6 +1,7 @@
 import './scoreboard_screen.dart';
 import '../models/Player.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class SetPlayerOrderScreen extends StatefulWidget {
   static const routeName = '/set-player-order';
@@ -20,6 +21,7 @@ class _SetPlayerOrderScreenState extends State<SetPlayerOrderScreen> {
   ];
 
   void navToScoreboard(BuildContext ctx) {
+    HapticFeedback.heavyImpact();
     Navigator.of(ctx).pushNamed(ScoreboardScreen.routeName);
   }
 
@@ -51,15 +53,19 @@ class _SetPlayerOrderScreenState extends State<SetPlayerOrderScreen> {
                           vertical: 8,
                           horizontal: 5,
                         ),
-                        child: ListTile(contentPadding: EdgeInsets.symmetric(horizontal: 50),
+                        child: ListTile(
+                            onTap: () {
+                              Feedback.forTap(context);
+                              HapticFeedback.heavyImpact();
+                            },
+                            contentPadding:
+                                EdgeInsets.symmetric(horizontal: 50),
                             title: Text(_roster[index].name,
-                                style: Theme
-                                    .of(context)
-                                    .textTheme
-                                    .headline6),
+                                style: Theme.of(context).textTheme.headline6),
                             trailing: Icon(Icons.zoom_out_map)));
                   }),
                   onReorder: (int oldIndex, int newIndex) {
+                    HapticFeedback.heavyImpact();
                     setState(() {
                       if (newIndex > oldIndex) {
                         newIndex -= 1;

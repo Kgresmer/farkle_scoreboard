@@ -1,5 +1,5 @@
 import 'package:farkle_scoreboard/widgets/new_player.dart';
-
+import 'package:flutter/services.dart';
 import './set_player_order_screen.dart';
 import './add_existing_player_screen.dart';
 import '../models/Player.dart';
@@ -9,10 +9,12 @@ class FillRosterScreen extends StatelessWidget {
   static const routeName = '/fill-roster';
 
   void navToAddExistingPlayers(BuildContext ctx) {
+    HapticFeedback.heavyImpact();
     Navigator.of(ctx).pushNamed(AddExistingPlayerScreen.routeName);
   }
 
   void navToSetPlayerOrder(BuildContext ctx) {
+    HapticFeedback.heavyImpact();
     Navigator.of(ctx).pushNamed(SetPlayerOrderScreen.routeName);
   }
 
