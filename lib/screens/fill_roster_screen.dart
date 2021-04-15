@@ -5,8 +5,15 @@ import './add_existing_player_screen.dart';
 import '../models/Player.dart';
 import 'package:flutter/material.dart';
 
-class FillRosterScreen extends StatelessWidget {
+
+class FillRosterScreen extends StatefulWidget {
   static const routeName = '/fill-roster';
+
+  @override
+  _FillRosterScreenState createState() => _FillRosterScreenState();
+}
+
+class _FillRosterScreenState extends State<FillRosterScreen> {
 
   void navToAddExistingPlayers(BuildContext ctx) {
     HapticFeedback.heavyImpact();
@@ -21,12 +28,18 @@ class FillRosterScreen extends StatelessWidget {
   final List<Player> _roster = [
     Player(name: 'Kevin', color: 1, wins: 5, losses: 1, bestScore: 10200),
     Player(name: 'Sigrid', color: 2, wins: 1, losses: 5, bestScore: 9900),
-    Player(name: 'Sigrid', color: 2, wins: 1, losses: 5, bestScore: 9900),
-    Player(name: 'Sigrid', color: 2, wins: 1, losses: 5, bestScore: 9900),
-    Player(name: 'Sigrid', color: 2, wins: 1, losses: 5, bestScore: 9900),
-    Player(name: 'Sigrid', color: 2, wins: 1, losses: 5, bestScore: 9900),
-    Player(name: 'Sigrid', color: 2, wins: 1, losses: 5, bestScore: 9900),
+    Player(name: 'Sigrid1', color: 2, wins: 2, losses: 5, bestScore: 9900),
+    Player(name: 'Sigrid2', color: 2, wins: 3, losses: 5, bestScore: 9900),
+    Player(name: 'Sigrid3', color: 2, wins: 4, losses: 5, bestScore: 9900),
+    Player(name: 'Sigrid4', color: 2, wins: 5, losses: 5, bestScore: 9900),
+    Player(name: 'Sigrid5', color: 2, wins: 6, losses: 5, bestScore: 9900),
   ];
+
+  void removeFromRoster(int index) {
+    setState(() {
+      _roster.removeAt(index);
+    });
+  }
 
   void addNewPlayer(BuildContext context) {
     showModalBottomSheet(
@@ -41,12 +54,17 @@ class FillRosterScreen extends StatelessWidget {
         });
   }
 
+  void backAPage(BuildContext ctx) {
+    HapticFeedback.heavyImpact();
+    Navigator.of(ctx).pop();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        leading: Icon(Icons.arrow_back),
+        leading: IconButton(icon: Icon(Icons.arrow_back), onPressed: () => backAPage(context),),
         title: Text('Fill Your Roster'),
       ),
       body: LayoutBuilder(builder: (ctx, constraints) {
@@ -100,7 +118,7 @@ class FillRosterScreen extends StatelessWidget {
                         icon: const Icon(Icons.clear),
                         iconSize: 35,
                         color: Theme.of(context).errorColor,
-                        onPressed: () => {},
+                        onPressed: () => removeFromRoster(index),
                       ),
                     ),
                   );

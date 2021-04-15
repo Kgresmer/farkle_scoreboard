@@ -63,12 +63,17 @@ class _AddExistingPlayerScreenState extends State<AddExistingPlayerScreen> {
     });
   }
 
+  void backAPage(BuildContext ctx) {
+    HapticFeedback.heavyImpact();
+    Navigator.of(ctx).pop();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        leading: Icon(Icons.arrow_back),
+        leading: IconButton(icon: Icon(Icons.arrow_back), onPressed: () => backAPage(context),),
         title: Text('Add Existing Players'),
       ),
       body: LayoutBuilder(builder: (ctx, constraints) {

@@ -1,3 +1,4 @@
+import './fill_roster_screen.dart';
 import './scoreboard_screen.dart';
 import '../models/Player.dart';
 import 'package:flutter/material.dart';
@@ -25,12 +26,17 @@ class _SetPlayerOrderScreenState extends State<SetPlayerOrderScreen> {
     Navigator.of(ctx).pushNamed(ScoreboardScreen.routeName);
   }
 
+  void backToFillRoster(BuildContext ctx) {
+    HapticFeedback.heavyImpact();
+    Navigator.of(ctx).pushNamed(FillRosterScreen.routeName);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        leading: Icon(Icons.arrow_back),
+        leading: IconButton(icon: Icon(Icons.arrow_back), onPressed: () => backToFillRoster(context),),
         title: Text('Set Player Order'),
       ),
       body: LayoutBuilder(builder: (ctx, constraints) {
