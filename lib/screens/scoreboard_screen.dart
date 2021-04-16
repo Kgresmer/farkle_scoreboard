@@ -18,28 +18,28 @@ class _ScoreboardScreenState extends State<ScoreboardScreen> {
         active: true,
         currentScore: 0,
         previousScore: 0,
-        numOfFarkles: 2),
+        numOfFarkles: 0),
     PlayerScore(
         player: Player(
             name: 'Sigrid', color: 1, wins: 5, losses: 1, bestScore: 10200),
         active: false,
         currentScore: 50,
         previousScore: 2500,
-        numOfFarkles: 0),
+        numOfFarkles: 3),
     PlayerScore(
         player: Player(
             name: 'George', color: 1, wins: 5, losses: 1, bestScore: 10200),
         active: false,
         currentScore: 5450,
         previousScore: 4200,
-        numOfFarkles: 0),
+        numOfFarkles: 1),
     PlayerScore(
         player: Player(
             name: 'Fred', color: 1, wins: 5, losses: 1, bestScore: 10200),
         active: false,
         currentScore: 10550,
         previousScore: 8700,
-        numOfFarkles: 0),
+        numOfFarkles: 2),
   ];
 
   renderFarkles(BuildContext context, int numOfFarkles) {
@@ -55,7 +55,7 @@ class _ScoreboardScreenState extends State<ScoreboardScreen> {
                     style: Theme.of(context).textTheme.bodyText1),
               ))));
     }
-    return farkles;
+    return Padding(padding: EdgeInsets.only(right: 15), child: Row(children: <Widget>[...farkles]));
   }
 
   @override
@@ -100,7 +100,7 @@ class _ScoreboardScreenState extends State<ScoreboardScreen> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[
-                            ...renderFarkles(
+                            renderFarkles(
                                 context, _players[index].numOfFarkles),
                             Text(
                               _players[index].currentScore.toString(),
