@@ -70,13 +70,7 @@ class _ScoreboardScreenState extends State<ScoreboardScreen> {
         return Column(
           children: <Widget>[
             Container(
-                height: constraints.maxHeight * .04,
-                child: Center(
-                  child: Text('click player card(s) to add to roster',
-                      style: Theme.of(context).textTheme.bodyText2),
-                )),
-            Container(
-              height: constraints.maxHeight * .84,
+              height: constraints.maxHeight * .88,
               child: ListView.builder(
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
@@ -115,22 +109,6 @@ class _ScoreboardScreenState extends State<ScoreboardScreen> {
                           ],
                         ),
                       ),
-                      subtitle: _players[index].previousScore > 0
-                          ? Padding(
-                              padding: EdgeInsets.only(right: 25),
-                              child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: <Widget>[
-                                    Text(
-                                        _players[index]
-                                            .previousScore
-                                            .toString(),
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline3)
-                                  ]),
-                            )
-                          : null,
                     ),
                   );
                 },
