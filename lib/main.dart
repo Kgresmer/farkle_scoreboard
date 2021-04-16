@@ -34,7 +34,9 @@ class MyApp extends StatelessWidget {
             bodyText1: TextStyle(fontSize: 20, color: Colors.white, ),
             bodyText2: TextStyle(color: Colors.black),
             headline6: TextStyle(color: Colors.teal[800],fontSize: 22),
-            headline5: TextStyle(color: Colors.teal[800],fontSize: 18)),
+            headline5: TextStyle(color: Colors.teal[800],fontSize: 18),
+            headline4: TextStyle(color: Colors.white,fontSize: 23),
+            headline3: TextStyle(color: Colors.white70,fontSize: 18)),
         visualDensity: VisualDensity.adaptivePlatformDensity,
         appBarTheme: AppBarTheme(color: Colors.teal)
       ),
