@@ -1,7 +1,7 @@
+import '../widgets/score_input.dart';
 import '../models/PlayerScore.dart';
 import '../models/Player.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class ScoreboardScreen extends StatefulWidget {
   static const routeName = '/scoreboard';
@@ -58,6 +58,23 @@ class _ScoreboardScreenState extends State<ScoreboardScreen> {
     return Padding(padding: EdgeInsets.only(right: 15), child: Row(children: <Widget>[...farkles]));
   }
 
+  void updateScore(int playerIndex, int score, bool farkle) {
+
+  }
+
+  void openScoreInput(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        builder: (_) {
+          return GestureDetector(
+            onTap: () => updateScore(1, 1500, false),
+            child: ScoreInput(),
+            behavior: HitTestBehavior.opaque,
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,18 +95,18 @@ class _ScoreboardScreenState extends State<ScoreboardScreen> {
                   return Card(
                     elevation: 5,
                     margin: const EdgeInsets.symmetric(
-                      vertical: 8,
+                      vertical: 4,
                       horizontal: 5,
                     ),
                     child: ListTile(
                       selectedTileColor: Colors.deepOrange,
                       tileColor: Colors.teal,
                       selected: _players[index].active,
-                      contentPadding: EdgeInsets.symmetric(vertical: 5),
+                      contentPadding: EdgeInsets.symmetric(vertical: 2),
                       leading: Container(
-                        height: double.infinity,
+                        height: 30,
                         child: Padding(
-                            padding: const EdgeInsets.all(12),
+                            padding: const EdgeInsets.only(left: 15),
                             child: FittedBox(
                               child: Text(_players[index].player.name,
                                   style: Theme.of(context).textTheme.bodyText1),
@@ -129,7 +146,7 @@ class _ScoreboardScreenState extends State<ScoreboardScreen> {
                                 backgroundColor: Colors.deepOrange,
                                 textStyle: TextStyle(
                                     fontSize: 30, fontWeight: FontWeight.bold)),
-                            onPressed: () {},
+                            onPressed: () => openScoreInput(context),
                             child: Text('Score'))),
                   ]),
             ),
