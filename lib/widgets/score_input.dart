@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vibration/vibration.dart';
-import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 class ScoreInput extends StatefulWidget {
   @override
@@ -8,7 +8,6 @@ class ScoreInput extends StatefulWidget {
 }
 
 class _ScoreInputState extends State<ScoreInput> {
-  final _nameController = TextEditingController();
   List<ScoreOption> scoreOptions = [
     ScoreOption(
         value: 100,
@@ -70,6 +69,16 @@ class _ScoreInputState extends State<ScoreInput> {
   int currentScore = 0;
   List<int> scoreUpdates = [];
   bool animated = false;
+  AudioCache _audioCache;
+
+  @override
+  void initState() {
+    super.initState();
+    _audioCache = AudioCache(
+      prefix: 'assets/audio/',
+      fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP),
+    );
+  }
 
   void _bankIt() {
     Navigator.of(context).pop();
@@ -77,6 +86,7 @@ class _ScoreInputState extends State<ScoreInput> {
 
   void updateCurrentScore(int value) {
     Vibration.vibrate(duration: 130, amplitude: 65);
+    _audioCache.play('add_score.mp3');
     setState(() {
       currentScore += value;
       scoreUpdates.add(value);
