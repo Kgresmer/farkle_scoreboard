@@ -23,7 +23,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+  vibration: ^1.7.3
+  animated_text_kit: ^4.2.1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -48,6 +49,18 @@ flutter:
   assets:
     - assets/images/dice-five.png
     - assets/images/dice-one.png
+    - assets/images/dice-straight.png
+    - assets/images/dice-3-ones.png
+    - assets/images/dice-3-twos.png
+    - assets/images/dice-3-threes.png
+    - assets/images/dice-3-fours.png
+    - assets/images/dice-3-fives.png
+    - assets/images/dice-3-sixes.png
+    - assets/images/dice-two-triples.png
+    - assets/images/dice-three-pairs.png
+    - assets/images/dice-4-kind.png
+    - assets/images/dice-5-kind.png
+    - assets/images/dice-6-kind.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
