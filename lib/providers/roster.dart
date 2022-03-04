@@ -27,4 +27,27 @@ class Roster with ChangeNotifier {
     newPlayer.active = active;
     notifyListeners();
   }
+
+  void updateScore(int score) {
+    RosterPlayer completedPlayer = _players.firstWhere((rp) => rp.isComplete == true, orElse: () => null);
+    final isFinalRound = completedPlayer != null;
+    for (int i = 0; i < _players.length; i++) {
+      if (_players[i].active == true) {
+        RosterPlayer currentActive = _players[i];
+        currentActive.score += score;
+        currentActive.active = false;
+        if (currentActive.score >= 10000 || isFinalRound) {
+          currentActive.isComplete = true;
+        }
+        final currentPlayerOrder = currentActive.playOrder;
+        RosterPlayer nextPlayerUp = _players.firstWhere((rp) => rp.playOrder == currentPlayerOrder + 1, orElse: () => null);
+        if (nextPlayerUp == null) {
+          nextPlayerUp = _players.firstWhere((rp) => rp.playOrder == 0);
+        }
+        nextPlayerUp.active = true;
+        break;
+      }
+    }
+    notifyListeners();
+  }
 }

@@ -1,10 +1,8 @@
+import 'package:farkle_scoreboard/widgets/scoreboard_player_list.dart';
 import 'package:provider/provider.dart';
-
 import '../models/RosterPlayer.dart';
 import '../providers/roster.dart';
 import '../widgets/score_input.dart';
-import '../models/PlayerScore.dart';
-import '../models/Player.dart';
 import 'package:flutter/material.dart';
 
 class ScoreboardScreen extends StatefulWidget {
@@ -15,26 +13,7 @@ class ScoreboardScreen extends StatefulWidget {
 }
 
 class _ScoreboardScreenState extends State<ScoreboardScreen> {
-
-  renderFarkles(BuildContext context, int numOfFarkles) {
-    List<Widget> farkles = [];
-    for (int i = 0; i < numOfFarkles; i++) {
-      farkles.add(CircleAvatar(
-          radius: 15,
-          backgroundColor: Colors.black,
-          child: Padding(
-              padding: const EdgeInsets.all(5),
-              child: FittedBox(
-                child: Text('F',
-                    style: Theme.of(context).textTheme.bodyText1),
-              ))));
-    }
-    return Padding(padding: EdgeInsets.only(right: 15), child: Row(children: <Widget>[...farkles]));
-  }
-
-  void updateScore(int playerIndex, int score, bool farkle) {
-
-  }
+  bool isGameComplete = false;
 
   void openScoreInput(BuildContext context) {
     showModalBottomSheet(
@@ -42,7 +21,6 @@ class _ScoreboardScreenState extends State<ScoreboardScreen> {
         isScrollControlled: true,
         builder: (_) {
           return GestureDetector(
-            onTap: () => updateScore(1, 1500, false),
             child: ScoreInput(),
             behavior: HitTestBehavior.opaque,
           );
@@ -55,6 +33,20 @@ class _ScoreboardScreenState extends State<ScoreboardScreen> {
     final List<RosterPlayer> _players = [...rosterData.players];
     _players.sort((a, b) => a.playOrder.compareTo(b.playOrder));
 
+    RosterPlayer currentWinner = _players[0];
+    bool allComplete = true;
+    _players.forEach((p) => {
+      if (p.score > currentWinner.score) currentWinner = p,
+      if (!p.isComplete) {
+        allComplete = false
+      }
+    });
+    if (allComplete) {
+      setState(() => {
+        isGameComplete = true
+      });
+    }
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -62,53 +54,11 @@ class _ScoreboardScreenState extends State<ScoreboardScreen> {
         title: Text('Farkle Scoreboard'),
       ),
       body: LayoutBuilder(builder: (ctx, constraints) {
-        return Column(
+        return isGameComplete ? Text('Game Over!') : Column(
           children: <Widget>[
             Container(
               height: constraints.maxHeight * .88,
-              child: ListView.builder(
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                itemBuilder: (ctx, index) {
-                  return Card(
-                    elevation: 5,
-                    margin: const EdgeInsets.symmetric(
-                      vertical: 4,
-                      horizontal: 5,
-                    ),
-                    child: ListTile(
-                      selectedTileColor: Colors.deepOrange,
-                      tileColor: Colors.teal,
-                      selected: _players[index].active,
-                      contentPadding: EdgeInsets.symmetric(vertical: 2),
-                      leading: Container(
-                        height: 30,
-                        child: Padding(
-                            padding: const EdgeInsets.only(left: 15),
-                            child: FittedBox(
-                              child: Text(_players[index].player.name,
-                                  style: Theme.of(context).textTheme.bodyText1),
-                            )),
-                      ),
-                      title: Padding(
-                        padding: EdgeInsets.only(right: 25),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
-                            renderFarkles(
-                                context, _players[index].farkles),
-                            Text(
-                              _players[index].score.toString(),
-                              style: Theme.of(context).textTheme.headline4,
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
-                },
-                itemCount: _players.length,
-              ),
+              child: ScoreboardPlayerList(_players),
             ),
             Container(
               height: constraints.maxHeight * .12,
@@ -131,6 +81,15 @@ class _ScoreboardScreenState extends State<ScoreboardScreen> {
           ],
         );
       }),
+    );
+  }
+
+  static Route<Object> _dialogBuilder(
+      BuildContext context, Object arguments) {
+    return DialogRoute<void>(
+      context: context,
+      builder: (BuildContext context) =>
+      const AlertDialog(title: Text('Game Over!')),
     );
   }
 }

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:vibration/vibration.dart';
 import 'package:audioplayers/audioplayers.dart';
+
+import '../providers/roster.dart';
 
 class ScoreInput extends StatefulWidget {
   @override
@@ -81,6 +84,7 @@ class _ScoreInputState extends State<ScoreInput> {
   }
 
   void _bankIt() {
+    Provider.of<Roster>(context, listen: false).updateScore(currentScore);
     Navigator.of(context).pop();
   }
 
