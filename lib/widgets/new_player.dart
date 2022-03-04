@@ -1,4 +1,10 @@
+import 'package:farkle_scoreboard/models/ExistingPlayer.dart';
+import 'package:farkle_scoreboard/providers/existing_players.dart';
+
+import '../models/Player.dart';
+import '../providers/roster.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class NewPlayer extends StatefulWidget {
   @override
@@ -11,7 +17,10 @@ class _NewPlayerState extends State<NewPlayer> {
   void _submitData() {
     final nameInput = _nameController.text;
     if (nameInput.isEmpty) return;
+    var newPlayer = new Player(name: nameInput, color: 1);
 
+    Provider.of<Roster>(context, listen: false).addPlayer(newPlayer);
+    Provider.of<ExistingPlayers>(context, listen: false).addPlayer(new ExistingPlayer(player: newPlayer, selected: false));
     Navigator.of(context).pop();
   }
 

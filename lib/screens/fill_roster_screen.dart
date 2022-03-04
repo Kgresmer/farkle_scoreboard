@@ -1,19 +1,14 @@
-import 'package:farkle_scoreboard/widgets/new_player.dart';
-import 'package:flutter/services.dart';
-import './set_player_order_screen.dart';
 import './add_existing_player_screen.dart';
-import '../models/Player.dart';
+import '../providers/roster.dart';
+import '../widgets/new_player.dart';
+import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import './set_player_order_screen.dart';
 import 'package:flutter/material.dart';
 
 
-class FillRosterScreen extends StatefulWidget {
+class FillRosterScreen extends StatelessWidget {
   static const routeName = '/fill-roster';
-
-  @override
-  _FillRosterScreenState createState() => _FillRosterScreenState();
-}
-
-class _FillRosterScreenState extends State<FillRosterScreen> {
 
   void navToAddExistingPlayers(BuildContext ctx) {
     HapticFeedback.heavyImpact();
@@ -23,22 +18,6 @@ class _FillRosterScreenState extends State<FillRosterScreen> {
   void navToSetPlayerOrder(BuildContext ctx) {
     HapticFeedback.heavyImpact();
     Navigator.of(ctx).pushNamed(SetPlayerOrderScreen.routeName);
-  }
-
-  final List<Player> _roster = [
-    Player(name: 'Kevin', color: 1, wins: 5, losses: 1, bestScore: 10200),
-    Player(name: 'Sigrid', color: 2, wins: 1, losses: 5, bestScore: 9900),
-    Player(name: 'Sigrid1', color: 2, wins: 2, losses: 5, bestScore: 9900),
-    Player(name: 'Sigrid2', color: 2, wins: 3, losses: 5, bestScore: 9900),
-    Player(name: 'Sigrid3', color: 2, wins: 4, losses: 5, bestScore: 9900),
-    Player(name: 'Sigrid4', color: 2, wins: 5, losses: 5, bestScore: 9900),
-    Player(name: 'Sigrid5', color: 2, wins: 6, losses: 5, bestScore: 9900),
-  ];
-
-  void removeFromRoster(int index) {
-    setState(() {
-      _roster.removeAt(index);
-    });
   }
 
   void addNewPlayer(BuildContext context) {
@@ -61,6 +40,9 @@ class _FillRosterScreenState extends State<FillRosterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final rosterData = Provider.of<Roster>(context);
+    final rosterPlayers = rosterData.players;
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -94,14 +76,14 @@ class _FillRosterScreenState extends State<FillRosterScreen> {
                                 padding: const EdgeInsets.all(5),
                                 child: FittedBox(
                                   child: Text(
-                                      _roster[index].name.substring(0, 1),
+                                      rosterPlayers[index].player.name.substring(0, 1),
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodyText1),
                                 ))),
                       ),
                       title: Text(
-                        _roster[index].name,
+                        rosterPlayers[index].player.name,
                         style: Theme.of(context).textTheme.headline6,
                       ),
                       subtitle: Column(
@@ -109,21 +91,25 @@ class _FillRosterScreenState extends State<FillRosterScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                                'Wins: ${_roster[index].wins} | Losses: ${_roster[index].losses}',
+                                'Wins: ${rosterPlayers[index].player.wins} | Losses: ${rosterPlayers[index].player.losses}',
                                 style: Theme.of(context).textTheme.headline5),
-                            Text('Best Score: ${_roster[index].bestScore}',
+                            Text('Best Score: ${rosterPlayers[index].player.bestScore}',
                                 style: Theme.of(context).textTheme.headline5),
                           ]),
                       trailing: IconButton(
                         icon: const Icon(Icons.clear),
                         iconSize: 35,
                         color: Theme.of(context).errorColor,
-                        onPressed: () => removeFromRoster(index),
+                        onPressed: () => {
+                          Provider.of<Roster>(context, listen: false).removePlayer(
+                            rosterPlayers[index].player
+                          )
+                        },
                       ),
                     ),
                   );
                 },
-                itemCount: _roster.length,
+                itemCount: rosterPlayers.length,
               ),
             ),
             Container(

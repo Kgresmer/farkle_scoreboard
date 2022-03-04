@@ -205,7 +205,7 @@ class _ScoreInputState extends State<ScoreInput> {
                       style: TextButton.styleFrom(
                           backgroundColor: Colors.deepOrange,
                           textStyle: TextStyle(fontSize: 24)),
-                      onPressed: () => {},
+                      onPressed: _bankIt,
                       child: Text('Bank It')),
                 ),
               ),

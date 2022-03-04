@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
+import 'package:uuid/uuid.dart';
 
 class Player {
+  String id;
   final String name;
   final int color;
   int wins;
@@ -10,7 +12,9 @@ class Player {
   Player(
       {@required this.name,
       @required this.color,
-      this.bestScore,
-      this.losses,
-      this.wins});
+      this.bestScore = 0,
+      this.losses = 0,
+      this.wins = 0}) {
+    id = Uuid().v4();
+  }
 }
