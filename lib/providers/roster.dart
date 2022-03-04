@@ -18,4 +18,13 @@ class Roster with ChangeNotifier {
     _players.removeWhere((rp) => rp.player.id == player.id);
     notifyListeners();
   }
+
+  void setPlayOrder(RosterPlayer rosterPlayer, int orderNum, bool active) {
+    final RosterPlayer newPlayer = _players.firstWhere(
+            (rp) => rp.player.id == rosterPlayer.player.id
+    );
+    newPlayer.playOrder = orderNum;
+    newPlayer.active = active;
+    notifyListeners();
+  }
 }

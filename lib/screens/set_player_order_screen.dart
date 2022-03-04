@@ -1,6 +1,8 @@
+import 'package:provider/provider.dart';
+import '../providers/roster.dart';
 import './fill_roster_screen.dart';
 import './scoreboard_screen.dart';
-import '../models/Player.dart';
+import '../models/RosterPlayer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -12,17 +14,24 @@ class SetPlayerOrderScreen extends StatefulWidget {
 }
 
 class _SetPlayerOrderScreenState extends State<SetPlayerOrderScreen> {
-  final List<Player> _roster = [
-    Player(name: 'Kevin', color: 1, wins: 5, losses: 1, bestScore: 10200),
-    Player(name: 'Sigrid', color: 2, wins: 1, losses: 5, bestScore: 9900),
-    Player(name: 'Sam', color: 2, wins: 1, losses: 5, bestScore: 9900),
-    Player(name: 'Samantha', color: 2, wins: 1, losses: 5, bestScore: 9900),
-    Player(name: 'Steve', color: 2, wins: 1, losses: 5, bestScore: 9900),
-    Player(name: 'Wendy', color: 2, wins: 1, losses: 5, bestScore: 9900)
-  ];
+  List<RosterPlayer> _roster = [];
+
+  @override
+  void initState() {
+    super.initState();
+
+    final rosterData = Provider.of<Roster>(context, listen: false);
+    setState(() {
+      _roster = [...rosterData.players];
+    });
+  }
 
   void navToScoreboard(BuildContext ctx) {
     HapticFeedback.heavyImpact();
+    // set play order
+    for(var i=0; i<_roster.length; i++){
+      Provider.of<Roster>(context, listen: false).setPlayOrder(_roster[i], i, i == 0);
+    }
     Navigator.of(ctx).pushNamed(ScoreboardScreen.routeName);
   }
 
@@ -36,7 +45,10 @@ class _SetPlayerOrderScreenState extends State<SetPlayerOrderScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        leading: IconButton(icon: Icon(Icons.arrow_back), onPressed: () => backToFillRoster(context),),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () => backToFillRoster(context),
+        ),
         title: Text('Set Player Order'),
       ),
       body: LayoutBuilder(builder: (ctx, constraints) {
@@ -66,7 +78,7 @@ class _SetPlayerOrderScreenState extends State<SetPlayerOrderScreen> {
                             },
                             contentPadding:
                                 EdgeInsets.symmetric(horizontal: 50),
-                            title: Text(_roster[index].name,
+                            title: Text(_roster[index].player.name,
                                 style: Theme.of(context).textTheme.headline6),
                             trailing: Icon(Icons.zoom_out_map)));
                   }),
@@ -76,7 +88,7 @@ class _SetPlayerOrderScreenState extends State<SetPlayerOrderScreen> {
                       if (newIndex > oldIndex) {
                         newIndex -= 1;
                       }
-                      final Player newPlayer = _roster.removeAt(oldIndex);
+                      final RosterPlayer newPlayer = _roster.removeAt(oldIndex);
                       _roster.insert(newIndex, newPlayer);
                     });
                   },

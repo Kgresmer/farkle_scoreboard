@@ -1,3 +1,7 @@
+import 'package:provider/provider.dart';
+
+import '../models/RosterPlayer.dart';
+import '../providers/roster.dart';
 import '../widgets/score_input.dart';
 import '../models/PlayerScore.dart';
 import '../models/Player.dart';
@@ -11,36 +15,6 @@ class ScoreboardScreen extends StatefulWidget {
 }
 
 class _ScoreboardScreenState extends State<ScoreboardScreen> {
-  List<PlayerScore> _players = [
-    PlayerScore(
-        player: Player(
-            name: 'Kevin', color: 1, wins: 5, losses: 1, bestScore: 10200),
-        active: true,
-        currentScore: 0,
-        previousScore: 0,
-        numOfFarkles: 0),
-    PlayerScore(
-        player: Player(
-            name: 'Sigrid', color: 1, wins: 5, losses: 1, bestScore: 10200),
-        active: false,
-        currentScore: 50,
-        previousScore: 2500,
-        numOfFarkles: 3),
-    PlayerScore(
-        player: Player(
-            name: 'George', color: 1, wins: 5, losses: 1, bestScore: 10200),
-        active: false,
-        currentScore: 5450,
-        previousScore: 4200,
-        numOfFarkles: 1),
-    PlayerScore(
-        player: Player(
-            name: 'Fred', color: 1, wins: 5, losses: 1, bestScore: 10200),
-        active: false,
-        currentScore: 10550,
-        previousScore: 8700,
-        numOfFarkles: 2),
-  ];
 
   renderFarkles(BuildContext context, int numOfFarkles) {
     List<Widget> farkles = [];
@@ -77,6 +51,10 @@ class _ScoreboardScreenState extends State<ScoreboardScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final rosterData = Provider.of<Roster>(context);
+    final List<RosterPlayer> _players = [...rosterData.players];
+    _players.sort((a, b) => a.playOrder.compareTo(b.playOrder));
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -118,9 +96,9 @@ class _ScoreboardScreenState extends State<ScoreboardScreen> {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[
                             renderFarkles(
-                                context, _players[index].numOfFarkles),
+                                context, _players[index].farkles),
                             Text(
-                              _players[index].currentScore.toString(),
+                              _players[index].score.toString(),
                               style: Theme.of(context).textTheme.headline4,
                             )
                           ],
