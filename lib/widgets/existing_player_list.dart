@@ -19,13 +19,25 @@ class _ExistingPlayerListState extends State<ExistingPlayerList> {
     setState(() {
       existingPlayer.selected = !existingPlayer.selected;
     });
-    Provider.of<Roster>(context, listen: false).addPlayer(existingPlayer.player);
+    if (existingPlayer.selected) {
+      Provider.of<Roster>(context, listen: false).addPlayer(existingPlayer.player);
+    } else {
+      Provider.of<Roster>(context, listen: false).removePlayer(existingPlayer.player);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final existingPlayersData = Provider.of<ExistingPlayers>(context);
     final existingPlayers = existingPlayersData.players.values.toList();
+    final rosterPlayersData = Provider.of<Roster>(context);
+    final rosterPlayers = rosterPlayersData.players;
+    ExistingPlayer ep = null;
+    rosterPlayers.forEach((rp) => {
+      ep = existingPlayers.firstWhere((exp) => exp.player.id == rp.player.id,
+          orElse: () => null),
+      if (ep != null) ep.selected = true
+    });
 
     return ListView.builder(
       scrollDirection: Axis.vertical,
