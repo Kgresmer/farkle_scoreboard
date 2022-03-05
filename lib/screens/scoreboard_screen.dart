@@ -1,4 +1,4 @@
-import 'package:farkle_scoreboard/widgets/scoreboard_player_list.dart';
+import '../widgets/scoreboard_player_list.dart';
 import 'package:provider/provider.dart';
 import '../models/RosterPlayer.dart';
 import '../providers/roster.dart';

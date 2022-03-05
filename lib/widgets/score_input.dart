@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vibration/vibration.dart';
 import 'package:audioplayers/audioplayers.dart';
-
 import '../providers/roster.dart';
+import '../providers/scoreboard.dart';
 
 class ScoreInput extends StatefulWidget {
   @override
@@ -69,7 +69,6 @@ class _ScoreInputState extends State<ScoreInput> {
         description: '6 of a kind',
         imageUrl: 'assets/images/dice-6-kind.png'),
   ];
-  int currentScore = 0;
   List<int> scoreUpdates = [];
   bool animated = false;
   AudioCache _audioCache;
@@ -84,15 +83,17 @@ class _ScoreInputState extends State<ScoreInput> {
   }
 
   void _bankIt() {
+    int currentScore = Provider.of<Scoreboard>(context, listen: false).score;
     Provider.of<Roster>(context, listen: false).updateScore(currentScore);
+    Provider.of<Scoreboard>(context, listen: false).clearScore();
     Navigator.of(context).pop();
   }
 
   void updateCurrentScore(int value) {
+    Provider.of<Scoreboard>(context, listen: false).updateScore(value);
     Vibration.vibrate(duration: 130, amplitude: 65);
     _audioCache.play('add_score.mp3');
     setState(() {
-      currentScore += value;
       scoreUpdates.add(value);
       animated = !animated;
     });
@@ -104,6 +105,7 @@ class _ScoreInputState extends State<ScoreInput> {
   }
 
   void addFarkle() {
+    Provider.of<Scoreboard>(context, listen: false).clearScore();
     Provider.of<Roster>(context, listen: false).addFarkle();
     Navigator.of(context).pop();
   }
@@ -115,9 +117,9 @@ class _ScoreInputState extends State<ScoreInput> {
   void undoLastScoreUpdate() {
     Vibration.vibrate(duration: 130, amplitude: 65);
     if (scoreUpdates.length > 0) {
+      int lastUpdate = scoreUpdates.removeAt(scoreUpdates.length - 1);
+      Provider.of<Scoreboard>(context, listen: false).updateScore(-lastUpdate);
       setState(() {
-        int lastUpdate = scoreUpdates.removeAt(scoreUpdates.length - 1);
-        currentScore -= lastUpdate;
         animated = !animated;
       });
       Future.delayed(const Duration(milliseconds: 400), () {
@@ -130,6 +132,8 @@ class _ScoreInputState extends State<ScoreInput> {
 
   @override
   Widget build(BuildContext context) {
+    int currentScore = Provider.of<Scoreboard>(context).score;
+
     return Container(
       height: MediaQuery.of(context).size.height * 0.96,
       child:

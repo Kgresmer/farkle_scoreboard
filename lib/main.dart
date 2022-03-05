@@ -1,3 +1,4 @@
+import './providers/scoreboard.dart';
 import './providers/roster.dart';
 import './screens/add_existing_player_screen.dart';
 import './screens/fill_roster_screen.dart';
@@ -24,6 +25,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider.value(
           value: Roster(),
+        ),
+        ChangeNotifierProvider.value(
+          value: Scoreboard(),
         )
       ],
       child: MaterialApp(
