@@ -103,6 +103,11 @@ class _ScoreInputState extends State<ScoreInput> {
     });
   }
 
+  void addFarkle() {
+    Provider.of<Roster>(context, listen: false).addFarkle();
+    Navigator.of(context).pop();
+  }
+
   void undoLastScoreUpdate() {
     Vibration.vibrate(duration: 130, amplitude: 65);
     if (scoreUpdates.length > 0) {
@@ -125,6 +130,31 @@ class _ScoreInputState extends State<ScoreInput> {
       height: MediaQuery.of(context).size.height * 0.90,
       child:
           Column(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
+        Container(
+            child: Padding(
+                padding: EdgeInsets.symmetric(vertical: 16, horizontal: 8.0),
+                child: Row(children: <Widget>[
+                  DefaultTextStyle(
+                    style: Theme.of(context).textTheme.bodyText1,
+                    child: Text('Current Turn Total: '),
+                  ),
+                  DefaultTextStyle(
+                    style: Theme.of(context).textTheme.bodyText1,
+                    child: AnimatedDefaultTextStyle(
+                      child: Text('$currentScore'),
+                      style: animated
+                          ? TextStyle(
+                              color: Colors.white,
+                              fontSize: 26,
+                            )
+                          : TextStyle(
+                              color: Colors.white,
+                              fontSize: 22,
+                            ),
+                      duration: Duration(milliseconds: 200),
+                    ),
+                  ),
+                ]))),
         Flexible(
           child: GridView.builder(
             gridDelegate:
@@ -159,60 +189,51 @@ class _ScoreInputState extends State<ScoreInput> {
             },
           ),
         ),
-        Container(
-            child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 16, horizontal: 8.0),
-                child: Row(children: <Widget>[
-                  DefaultTextStyle(
-                    style: Theme.of(context).textTheme.bodyText1,
-                    child: Text('Current Turn Total: '),
-                  ),
-                  DefaultTextStyle(
-                    style: Theme.of(context).textTheme.bodyText1,
-                    child: AnimatedDefaultTextStyle(
-                      child: Text('$currentScore'),
-                      style: animated
-                          ? TextStyle(
-                              color: Colors.white,
-                              fontSize: 26,
-                            )
-                          : TextStyle(
-                              color: Colors.white,
-                              fontSize: 22,
-                            ),
-                      duration: Duration(milliseconds: 200),
-                    ),
-                  ),
-                ]))),
         Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Container(
-                width: 160,
-                height: 65,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextButton(
-                      style: TextButton.styleFrom(
-                          backgroundColor: Colors.deepOrange,
-                          textStyle: TextStyle(fontSize: 24)),
-                      onPressed: undoLastScoreUpdate,
-                      child: Text('Undo')),
-                ),
-              ),
-              Container(
-                width: 160,
-                height: 65,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextButton(
-                      style: TextButton.styleFrom(
-                          backgroundColor: Colors.deepOrange,
-                          textStyle: TextStyle(fontSize: 24)),
-                      onPressed: _bankIt,
-                      child: Text('Bank It')),
-                ),
-              ),
+              Expanded(
+                  flex: 3,
+                  child: Container(
+                    height: 65,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextButton(
+                          style: TextButton.styleFrom(
+                              backgroundColor: Colors.deepOrange,
+                              textStyle: TextStyle(fontSize: 24)),
+                          onPressed: undoLastScoreUpdate,
+                          child: Text('Undo')),
+                    ),
+                  )),
+              Expanded(
+                  flex: 3,
+                  child: Container(
+                    height: 65,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextButton(
+                          style: TextButton.styleFrom(
+                              backgroundColor: Colors.deepOrange,
+                              textStyle: TextStyle(fontSize: 24)),
+                          onPressed: addFarkle,
+                          child: Text('Farkle')),
+                    ),
+                  )),
+              Expanded(
+                  flex: 3,
+                  child: Container(
+                    height: 65,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextButton(
+                          style: TextButton.styleFrom(
+                              backgroundColor: Colors.deepOrange,
+                              textStyle: TextStyle(fontSize: 24)),
+                          onPressed: _bankIt,
+                          child: Text('Bank It')),
+                    ),
+                  )),
             ])
       ]),
     );

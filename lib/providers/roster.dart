@@ -50,4 +50,31 @@ class Roster with ChangeNotifier {
     }
     notifyListeners();
   }
+
+  void addFarkle() {
+    RosterPlayer completedPlayer = _players.firstWhere((rp) => rp.isComplete == true, orElse: () => null);
+    final isFinalRound = completedPlayer != null;
+    for (int i = 0; i < _players.length; i++) {
+      if (_players[i].active == true) {
+        RosterPlayer currentActive = _players[i];
+        currentActive.farkles += 1;
+        if (currentActive.farkles == 3) {
+          currentActive.score -= 1000;
+          currentActive.farkles = 0;
+        }
+        currentActive.active = false;
+        if (currentActive.score >= 10000 || isFinalRound) {
+          currentActive.isComplete = true;
+        }
+        final currentPlayerOrder = currentActive.playOrder;
+        RosterPlayer nextPlayerUp = _players.firstWhere((rp) => rp.playOrder == currentPlayerOrder + 1, orElse: () => null);
+        if (nextPlayerUp == null) {
+          nextPlayerUp = _players.firstWhere((rp) => rp.playOrder == 0);
+        }
+        nextPlayerUp.active = true;
+        break;
+      }
+    }
+    notifyListeners();
+  }
 }
