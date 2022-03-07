@@ -25,14 +25,17 @@ class ScoreboardPlayerList extends StatelessWidget {
   void evaluateIfGameIsOver(context) {
     final rosterData = Provider.of<Roster>(context, listen: false);
     final List<RosterPlayer> _players = [...rosterData.players];
-    RosterPlayer currentWinner = _players[0];
-    bool allComplete = true;
-    _players.forEach((p) => {
-      if (p.score > currentWinner.score) currentWinner = p,
-      if (!p.isComplete) {allComplete = false}
-    });
-    if (allComplete) {
-      Navigator.of(context).pushNamed(GameOverScreen.routeName);
+    if (_players.length > 0) {
+      RosterPlayer currentWinner = _players[0];
+      bool allComplete = true;
+      _players.forEach((p) =>
+      {
+        if (p.score > currentWinner.score) currentWinner = p,
+        if (!p.isComplete) {allComplete = false}
+      });
+      if (allComplete) {
+        Navigator.of(context).pushNamed(GameOverScreen.routeName);
+      }
     }
   }
 

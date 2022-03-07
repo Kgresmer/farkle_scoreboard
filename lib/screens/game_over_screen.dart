@@ -9,13 +9,12 @@ class GameOverScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    RosterPlayer winner = Provider.of<Roster>(context, listen: false).getWinner();
+    RosterPlayer winner =
+        Provider.of<Roster>(context, listen: false).getWinner();
     Provider.of<Roster>(context, listen: false).restartGame();
 
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
-        leading: Icon(Icons.arrow_back),
         title: Text('Farkle Scoreboard'),
       ),
       body: LayoutBuilder(builder: (ctx, constraints) {
@@ -23,7 +22,17 @@ class GameOverScreen extends StatelessWidget {
           children: <Widget>[
             Container(
               height: constraints.maxHeight * .88,
-              child: Text('Congratulations ${winner.player.name}'),
+              child: Center(
+                  child: Container(
+                      color: Theme.of(context).secondaryHeaderColor,
+                      width: constraints.maxWidth * .70,
+                      height: constraints.maxHeight * .40,
+                      child: Center(
+                          child: Text(
+                        'Congratulations \n${winner.player.name}',
+                        style: TextStyle(
+                            fontSize: 30, color: Theme.of(context).cardColor),
+                      )))),
             ),
             Container(
               height: constraints.maxHeight * .12,
@@ -36,25 +45,19 @@ class GameOverScreen extends StatelessWidget {
                         width: constraints.maxWidth - 25,
                         child: TextButton(
                             style: TextButton.styleFrom(
-                                backgroundColor: Colors.deepOrange,
+                                backgroundColor: Theme.of(context).shadowColor,
                                 textStyle: TextStyle(
                                     fontSize: 30, fontWeight: FontWeight.bold)),
-                            onPressed: () => Navigator.of(ctx).pushNamed(FillRosterScreen.routeName),
-                            child: Text('Continue'))),
+                            onPressed: () => Navigator.of(ctx)
+                                .pushNamed(FillRosterScreen.routeName),
+                            child: Text('Continue',
+                                style: TextStyle(
+                                    color: Theme.of(context).canvasColor)))),
                   ]),
             ),
           ],
         );
       }),
-    );
-  }
-
-  static Route<Object> _dialogBuilder(
-      BuildContext context, Object arguments) {
-    return DialogRoute<void>(
-      context: context,
-      builder: (BuildContext context) =>
-      const AlertDialog(title: Text('Game Over!')),
     );
   }
 }

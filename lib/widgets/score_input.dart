@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vibration/vibration.dart';
 import 'package:audioplayers/audioplayers.dart';
+import '../models/RosterPlayer.dart';
 import '../providers/roster.dart';
 import '../providers/scoreboard.dart';
 
@@ -69,7 +70,6 @@ class _ScoreInputState extends State<ScoreInput> {
         description: '6 of a kind',
         imageUrl: 'assets/images/dice-6-kind.png'),
   ];
-  List<int> scoreUpdates = [];
   bool animated = false;
   AudioCache _audioCache;
 
@@ -94,13 +94,7 @@ class _ScoreInputState extends State<ScoreInput> {
     Vibration.vibrate(duration: 130, amplitude: 65);
     _audioCache.play('add_score.mp3');
     setState(() {
-      scoreUpdates.add(value);
       animated = !animated;
-    });
-    Future.delayed(const Duration(milliseconds: 400), () {
-      setState(() {
-        animated = !animated;
-      });
     });
   }
 
@@ -116,9 +110,9 @@ class _ScoreInputState extends State<ScoreInput> {
 
   void undoLastScoreUpdate() {
     Vibration.vibrate(duration: 130, amplitude: 65);
-    if (scoreUpdates.length > 0) {
-      int lastUpdate = scoreUpdates.removeAt(scoreUpdates.length - 1);
-      Provider.of<Scoreboard>(context, listen: false).updateScore(-lastUpdate);
+    if (Provider.of<Scoreboard>(context, listen: false).scoreUpdates.length >
+        0) {
+      Provider.of<Scoreboard>(context, listen: false).undoScore();
       setState(() {
         animated = !animated;
       });
@@ -133,6 +127,9 @@ class _ScoreInputState extends State<ScoreInput> {
   @override
   Widget build(BuildContext context) {
     int currentScore = Provider.of<Scoreboard>(context).score;
+    RosterPlayer activePlayer = Provider.of<Roster>(context)
+        .players
+        .firstWhere((p) => p.active == true);
 
     return Container(
       height: MediaQuery.of(context).size.height * 0.96,
@@ -144,30 +141,51 @@ class _ScoreInputState extends State<ScoreInput> {
                 child: Row(
                   children: [
                     Expanded(
-                      flex: 8,
-                      child: Row(children: <Widget>[
-                        DefaultTextStyle(
-                          style: Theme.of(context).textTheme.displayMedium,
-                          child: Text('Current Turn Total: '),
-                        ),
-                        DefaultTextStyle(
-                          style: Theme.of(context).textTheme.displayMedium,
-                          child: AnimatedDefaultTextStyle(
-                            child: Text('$currentScore'),
-                            style: animated
-                                ? TextStyle(
+                        flex: 8,
+                        child: Column(children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 8.0),
+                            child: Row(
+                              children: <Widget>[
+                                DefaultTextStyle(
+                                  style:
+                                      Theme.of(context).textTheme.displayMedium,
+                                  child: Text(
+                                      '${activePlayer.player.name}\'s current score: '),
+                                ),
+                                DefaultTextStyle(
+                                  style: Theme.of(context).textTheme.displayMedium,
+                                  child: Text('${activePlayer.score}'),
+                                )
+                              ],
+                            ),
+                          ),
+                          Row(
+                            children: <Widget>[
+                              DefaultTextStyle(
+                                style:
+                                    Theme.of(context).textTheme.displayMedium,
+                                child: Text('Current turn total: '),
+                              ),
+                              DefaultTextStyle(
+                                style: Theme.of(context).textTheme.displayMedium,
+                                child: AnimatedDefaultTextStyle(
+                                  child: Text('$currentScore'),
+                                  style: animated
+                                      ? TextStyle(
                                     color: Colors.white,
                                     fontSize: 26,
                                   )
-                                : TextStyle(
+                                      : TextStyle(
                                     color: Colors.white,
                                     fontSize: 22,
                                   ),
-                            duration: Duration(milliseconds: 200),
+                                  duration: Duration(milliseconds: 200),
+                                ),
+                              )
+                            ],
                           ),
-                        ),
-                      ]),
-                    ),
+                        ])),
                     Expanded(
                         flex: 2,
                         child: Padding(
