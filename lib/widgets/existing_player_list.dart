@@ -33,7 +33,6 @@ class _ExistingPlayerListState extends State<ExistingPlayerList> {
     final existingPlayers = existingPlayersData.players.values.toList();
     final rosterPlayersData = Provider.of<Roster>(context);
     final rosterPlayers = rosterPlayersData.players;
-    print(rosterPlayers.length);
     RosterPlayer rosterPlayer = null;
     existingPlayers.forEach((ep) => {
           rosterPlayer = rosterPlayers.firstWhere(

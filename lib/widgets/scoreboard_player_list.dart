@@ -38,7 +38,6 @@ class ScoreboardPlayerList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('build scoreboard player list');
     WidgetsBinding.instance.addPostFrameCallback((_) => evaluateIfGameIsOver(context));
     final rosterData = Provider.of<Roster>(context);
     final List<RosterPlayer> _players = [...rosterData.players];

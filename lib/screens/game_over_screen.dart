@@ -9,7 +9,6 @@ class GameOverScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('game over build');
     RosterPlayer winner = Provider.of<Roster>(context, listen: false).getWinner();
     Provider.of<Roster>(context, listen: false).restartGame();
 
