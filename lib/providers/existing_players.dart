@@ -36,6 +36,11 @@ class ExistingPlayers with ChangeNotifier {
     notifyListeners();
   }
 
+  void removePlayer(ExistingPlayer player) {
+    _players.remove(player.player.id);
+    notifyListeners();
+  }
+
   void addPlayer(ExistingPlayer newPlayer) {
     _players.putIfAbsent(newPlayer.player.id, () => newPlayer);
     notifyListeners();
