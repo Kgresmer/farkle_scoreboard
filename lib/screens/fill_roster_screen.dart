@@ -15,9 +15,9 @@ class FillRosterScreen extends StatelessWidget {
     Navigator.of(ctx).pushNamed(AddExistingPlayerScreen.routeName);
   }
 
-  void navToSetPlayerOrder(BuildContext ctx) {
+  void navToSetPlayerOrder(BuildContext ctx, bool rosterIsEmpty) {
     HapticFeedback.heavyImpact();
-    Navigator.of(ctx).pushNamed(SetPlayerOrderScreen.routeName);
+    if (!rosterIsEmpty) Navigator.of(ctx).pushNamed(SetPlayerOrderScreen.routeName);
   }
 
   void addNewPlayer(BuildContext context) {
@@ -156,11 +156,11 @@ class FillRosterScreen extends StatelessWidget {
                             width: constraints.maxWidth - 25,
                             child: TextButton(
                                 style: TextButton.styleFrom(
-                                    backgroundColor: Theme.of(context).shadowColor,
+                                    backgroundColor: rosterPlayers.length == 0 ? Theme.of(context).disabledColor : Theme.of(context).shadowColor,
                                     textStyle: TextStyle(
                                         fontSize: 30,
                                         fontWeight: FontWeight.bold)),
-                                onPressed: () => navToSetPlayerOrder(context),
+                                onPressed: () => navToSetPlayerOrder(context, rosterPlayers.length == 0),
                                 child: Text('Ready', style: TextStyle(color: Theme.of(context).canvasColor)))),
                       ]),
                 ],

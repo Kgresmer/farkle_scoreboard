@@ -62,6 +62,7 @@ class MyApp extends StatelessWidget {
             canvasColor: blackish,
             cardColor: white,
             dividerColor: teal,
+            disabledColor: Colors.white54,
             textTheme: ThemeData.light().textTheme.copyWith(
                 displayMedium: TextStyle(
                     fontSize: 20, color: white, fontWeight: FontWeight.w600),

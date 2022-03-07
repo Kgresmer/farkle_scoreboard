@@ -1,6 +1,7 @@
 import 'package:farkle_scoreboard/providers/roster.dart';
 
 import '../models/ExistingPlayer.dart';
+import '../models/RosterPlayer.dart';
 import '../providers/existing_players.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -32,12 +33,17 @@ class _ExistingPlayerListState extends State<ExistingPlayerList> {
     final existingPlayers = existingPlayersData.players.values.toList();
     final rosterPlayersData = Provider.of<Roster>(context);
     final rosterPlayers = rosterPlayersData.players;
-    ExistingPlayer ep = null;
-    rosterPlayers.forEach((rp) => {
-          ep = existingPlayers.firstWhere(
-              (exp) => exp.player.id == rp.player.id,
+    print(rosterPlayers.length);
+    RosterPlayer rosterPlayer = null;
+    existingPlayers.forEach((ep) => {
+          rosterPlayer = rosterPlayers.firstWhere(
+              (rp) => rp.player.id == ep.player.id,
               orElse: () => null),
-          if (ep != null) ep.selected = true
+          if (rosterPlayer != null) {
+            ep.selected = true
+          } else {
+            ep.selected = false
+          }
         });
 
     return ListView.builder(
@@ -66,7 +72,10 @@ class _ExistingPlayerListState extends State<ExistingPlayerList> {
                       padding: const EdgeInsets.all(5),
                       child: FittedBox(
                         child: existingPlayers[index].selected
-                            ? Icon(Icons.check, size: 40,)
+                            ? Icon(
+                                Icons.check,
+                                size: 40,
+                              )
                             : Text(
                                 existingPlayers[index]
                                     .player
