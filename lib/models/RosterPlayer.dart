@@ -13,5 +13,6 @@ class RosterPlayer {
       {@required this.player,
       this.score = 0,
       this.farkles = 0,
+      this.playOrder = 0,
       this.isComplete = false});
 }

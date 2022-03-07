@@ -12,7 +12,7 @@ class ResultsScreen extends StatelessWidget {
           Container(
             height: 300,
             width: double.infinity,
-            child: Text('Results Screen', style: Theme.of(context).textTheme.bodyText1,),
+            child: Text('Results Screen', style: Theme.of(context).textTheme.displayMedium,),
           ),
         ],
       ),

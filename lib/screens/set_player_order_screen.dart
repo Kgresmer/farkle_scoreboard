@@ -43,44 +43,47 @@ class _SetPlayerOrderScreenState extends State<SetPlayerOrderScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () => backToFillRoster(context),
         ),
-        title: Text('Set Player Order'),
+        title: Text('Set Player Order', style: TextStyle(color: Theme.of(context).cardColor)),
       ),
       body: LayoutBuilder(builder: (ctx, constraints) {
         return Column(
           children: <Widget>[
             Container(
-                height: constraints.maxHeight * .04,
+                color: Theme.of(context).secondaryHeaderColor,
+                height: constraints.maxHeight * .06,
                 child: Center(
                   child: Text('click, hold and drag to change the order',
-                      style: Theme.of(context).textTheme.bodyText2),
+                      style: Theme.of(context).textTheme.displaySmall),
                 )),
             Container(
-                height: constraints.maxHeight * .84,
+                height: constraints.maxHeight * .82,
                 child: ReorderableListView(
+                  padding: const EdgeInsets.symmetric(vertical: 8,
+                    horizontal: 6),
                   children: List.generate(_roster.length, (index) {
                     return Card(
                         key: UniqueKey(),
                         elevation: 5,
                         margin: const EdgeInsets.symmetric(
                           vertical: 8,
-                          horizontal: 5,
+                          horizontal: 4,
                         ),
                         child: ListTile(
                             onTap: () {
                               Feedback.forTap(context);
                               HapticFeedback.heavyImpact();
                             },
+                            tileColor: Theme.of(context).dividerColor,
                             contentPadding:
                                 EdgeInsets.symmetric(horizontal: 50),
                             title: Text(_roster[index].player.name,
-                                style: Theme.of(context).textTheme.headline6),
-                            trailing: Icon(Icons.zoom_out_map)));
+                                style: Theme.of(context).textTheme.headlineLarge),
+                            trailing: Icon(Icons.zoom_out_map, color: Theme.of(context).cardColor, size: 37,)));
                   }),
                   onReorder: (int oldIndex, int newIndex) {
                     HapticFeedback.heavyImpact();
@@ -91,6 +94,23 @@ class _SetPlayerOrderScreenState extends State<SetPlayerOrderScreen> {
                       final RosterPlayer newPlayer = _roster.removeAt(oldIndex);
                       _roster.insert(newIndex, newPlayer);
                     });
+                  },
+                  proxyDecorator: (Widget child, int index, Animation<double> animation) {
+                    return Material(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              color: Theme.of(context).shadowColor,
+                              spreadRadius: 4,
+                              blurRadius: 4,
+                              offset: Offset(0, 2), // changes position of shadow
+                            ),
+                          ],
+                        ),
+                        child: child,
+                      ),
+                    );
                   },
                 )),
             Container(
@@ -104,11 +124,11 @@ class _SetPlayerOrderScreenState extends State<SetPlayerOrderScreen> {
                         width: constraints.maxWidth - 25,
                         child: TextButton(
                             style: TextButton.styleFrom(
-                                backgroundColor: Colors.deepOrange,
+                                backgroundColor: Theme.of(context).shadowColor,
                                 textStyle: TextStyle(
                                     fontSize: 30, fontWeight: FontWeight.bold)),
                             onPressed: () => navToScoreboard(context),
-                            child: Text('Ready to Start'))),
+                            child: Text('Ready to Start', style: TextStyle(color: Theme.of(context).canvasColor) ))),
                   ]),
             ),
           ],

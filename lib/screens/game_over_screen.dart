@@ -1,38 +1,30 @@
-import '../widgets/scoreboard_player_list.dart';
-import '../widgets/score_input.dart';
+import './fill_roster_screen.dart';
+import 'package:provider/provider.dart';
+import '../models/RosterPlayer.dart';
+import '../providers/roster.dart';
 import 'package:flutter/material.dart';
 
-class ScoreboardScreen extends StatelessWidget {
-  static const routeName = '/scoreboard';
-
-  void openScoreInput(BuildContext context) {
-    showModalBottomSheet(
-        context: context,
-        isScrollControlled: true,
-        builder: (_) {
-          return GestureDetector(
-            child: ScoreInput(),
-            behavior: HitTestBehavior.opaque,
-          );
-        });
-  }
+class GameOverScreen extends StatelessWidget {
+  static const routeName = '/gameover';
 
   @override
   Widget build(BuildContext context) {
-    print('build scoreboard screen');
+    print('game over build');
+    RosterPlayer winner = Provider.of<Roster>(context, listen: false).getWinner();
+    Provider.of<Roster>(context, listen: false).restartGame();
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         leading: Icon(Icons.arrow_back),
-        title: Text('Farkle Scoreboard',
-            style: TextStyle(color: Theme.of(context).cardColor)),
+        title: Text('Farkle Scoreboard'),
       ),
       body: LayoutBuilder(builder: (ctx, constraints) {
         return Column(
           children: <Widget>[
             Container(
               height: constraints.maxHeight * .88,
-              child: ScoreboardPlayerList(),
+              child: Text('Congratulations ${winner.player.name}'),
             ),
             Container(
               height: constraints.maxHeight * .12,
@@ -45,18 +37,25 @@ class ScoreboardScreen extends StatelessWidget {
                         width: constraints.maxWidth - 25,
                         child: TextButton(
                             style: TextButton.styleFrom(
-                                backgroundColor: Theme.of(context).shadowColor,
+                                backgroundColor: Colors.deepOrange,
                                 textStyle: TextStyle(
                                     fontSize: 30, fontWeight: FontWeight.bold)),
-                            onPressed: () => openScoreInput(context),
-                            child: Text('Begin scoring',
-                                style: TextStyle(
-                                    color: Theme.of(context).canvasColor)))),
+                            onPressed: () => Navigator.of(ctx).pushNamed(FillRosterScreen.routeName),
+                            child: Text('Continue'))),
                   ]),
             ),
           ],
         );
       }),
+    );
+  }
+
+  static Route<Object> _dialogBuilder(
+      BuildContext context, Object arguments) {
+    return DialogRoute<void>(
+      context: context,
+      builder: (BuildContext context) =>
+      const AlertDialog(title: Text('Game Over!')),
     );
   }
 }

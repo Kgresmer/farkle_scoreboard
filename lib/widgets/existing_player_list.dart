@@ -7,22 +7,22 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class ExistingPlayerList extends StatefulWidget {
-
   @override
   _ExistingPlayerListState createState() => _ExistingPlayerListState();
 }
 
 class _ExistingPlayerListState extends State<ExistingPlayerList> {
-
   void selectPlayer(ExistingPlayer existingPlayer) {
     HapticFeedback.heavyImpact();
     setState(() {
       existingPlayer.selected = !existingPlayer.selected;
     });
     if (existingPlayer.selected) {
-      Provider.of<Roster>(context, listen: false).addPlayer(existingPlayer.player);
+      Provider.of<Roster>(context, listen: false)
+          .addPlayer(existingPlayer.player);
     } else {
-      Provider.of<Roster>(context, listen: false).removePlayer(existingPlayer.player);
+      Provider.of<Roster>(context, listen: false)
+          .removePlayer(existingPlayer.player);
     }
   }
 
@@ -34,10 +34,11 @@ class _ExistingPlayerListState extends State<ExistingPlayerList> {
     final rosterPlayers = rosterPlayersData.players;
     ExistingPlayer ep = null;
     rosterPlayers.forEach((rp) => {
-      ep = existingPlayers.firstWhere((exp) => exp.player.id == rp.player.id,
-          orElse: () => null),
-      if (ep != null) ep.selected = true
-    });
+          ep = existingPlayers.firstWhere(
+              (exp) => exp.player.id == rp.player.id,
+              orElse: () => null),
+          if (ep != null) ep.selected = true
+        });
 
     return ListView.builder(
       scrollDirection: Axis.vertical,
@@ -50,8 +51,8 @@ class _ExistingPlayerListState extends State<ExistingPlayerList> {
             horizontal: 5,
           ),
           child: ListTile(
-            tileColor: Colors.white,
-            selectedTileColor: Colors.orange,
+            tileColor: Theme.of(context).dividerColor,
+            selectedTileColor: Theme.of(context).shadowColor,
             selected: existingPlayers[index].selected,
             onTap: () => selectPlayer(existingPlayers[index]),
             isThreeLine: true,
@@ -60,44 +61,39 @@ class _ExistingPlayerListState extends State<ExistingPlayerList> {
               height: double.infinity,
               child: CircleAvatar(
                   radius: 40,
-                  backgroundColor: Colors.teal,
+                  backgroundColor: Theme.of(context).shadowColor,
                   child: Padding(
                       padding: const EdgeInsets.all(5),
                       child: FittedBox(
-                        child: Text(
-                            existingPlayers[index].player.name.substring(
-                                0, 1),
-                            style: Theme
-                                .of(context)
-                                .textTheme
-                                .bodyText1),
+                        child: existingPlayers[index].selected
+                            ? Icon(Icons.check, size: 40,)
+                            : Text(
+                                existingPlayers[index]
+                                    .player
+                                    .name
+                                    .substring(0, 1),
+                                style: Theme.of(context).textTheme.titleLarge),
                       ))),
             ),
             title: Text(
               existingPlayers[index].player.name,
-              style: Theme
-                  .of(context)
-                  .textTheme
-                  .headline6,
+              style: existingPlayers[index].selected
+                  ? Theme.of(context).textTheme.bodyMedium
+                  : Theme.of(context).textTheme.headlineLarge,
             ),
             subtitle: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                      'Wins: ${existingPlayers[index].player
-                          .wins} | Losses: ${existingPlayers[index].player
-                          .losses}',
-                      style: Theme
-                          .of(context)
-                          .textTheme
-                          .headline5),
-                  Text('Best Score: ${existingPlayers[index].player
-                      .bestScore}',
-                      style: Theme
-                          .of(context)
-                          .textTheme
-                          .headline5),
+                      'Wins: ${existingPlayers[index].player.wins} | Losses: ${existingPlayers[index].player.losses}',
+                      style: existingPlayers[index].selected
+                          ? Theme.of(context).textTheme.bodySmall
+                          : Theme.of(context).textTheme.headlineMedium),
+                  Text('Best Score: ${existingPlayers[index].player.bestScore}',
+                      style: existingPlayers[index].selected
+                          ? Theme.of(context).textTheme.bodySmall
+                          : Theme.of(context).textTheme.headlineMedium),
                 ]),
           ),
         );

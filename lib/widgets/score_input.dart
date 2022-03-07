@@ -147,11 +147,11 @@ class _ScoreInputState extends State<ScoreInput> {
                       flex: 8,
                       child: Row(children: <Widget>[
                         DefaultTextStyle(
-                          style: Theme.of(context).textTheme.bodyText1,
+                          style: Theme.of(context).textTheme.displayMedium,
                           child: Text('Current Turn Total: '),
                         ),
                         DefaultTextStyle(
-                          style: Theme.of(context).textTheme.bodyText1,
+                          style: Theme.of(context).textTheme.displayMedium,
                           child: AnimatedDefaultTextStyle(
                             child: Text('$currentScore'),
                             style: animated
@@ -178,8 +178,11 @@ class _ScoreInputState extends State<ScoreInput> {
                                   padding: EdgeInsets.all(0),
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(25.0),
-                                      side: BorderSide(color: Colors.orange)),
-                                  backgroundColor: Colors.deepOrange,
+                                      side: BorderSide(
+                                          color: Theme.of(context)
+                                              .secondaryHeaderColor)),
+                                  backgroundColor:
+                                      Theme.of(context).secondaryHeaderColor,
                                   textStyle: TextStyle(fontSize: 24)),
                               onPressed: closeScoreInput,
                               child: Text('X')),
@@ -195,6 +198,7 @@ class _ScoreInputState extends State<ScoreInput> {
               return InkWell(
                 onTap: () => updateCurrentScore(scoreOptions[index].value),
                 child: Card(
+                    color: Theme.of(context).dividerColor,
                     elevation: 5,
                     margin: const EdgeInsets.symmetric(
                       vertical: 4,
@@ -206,11 +210,11 @@ class _ScoreInputState extends State<ScoreInput> {
                       children: <Widget>[
                         Text(
                           scoreOptions[index].description,
-                          style: Theme.of(context).textTheme.headline5,
+                          style: Theme.of(context).textTheme.headlineMedium,
                         ),
                         Text(
                           '+ ' + scoreOptions[index].value.toString(),
-                          style: Theme.of(context).textTheme.headline6,
+                          style: Theme.of(context).textTheme.headlineLarge,
                         ),
                         Image.asset(scoreOptions[index].imageUrl,
                             width: 180, height: 70, fit: BoxFit.contain)
@@ -231,9 +235,8 @@ class _ScoreInputState extends State<ScoreInput> {
                       padding: const EdgeInsets.fromLTRB(8, 8, 0, 8),
                       child: TextButton(
                           style: TextButton.styleFrom(
-                              side: BorderSide(
-                                  color: Colors.orange, width: 1.5),
-                              backgroundColor: Colors.deepOrange,
+                              backgroundColor:
+                                  Theme.of(context).secondaryHeaderColor,
                               textStyle: TextStyle(fontSize: 24)),
                           onPressed: undoLastScoreUpdate,
                           child: Text('Undo')),
@@ -247,9 +250,8 @@ class _ScoreInputState extends State<ScoreInput> {
                       padding: const EdgeInsets.fromLTRB(8, 8, 0, 8),
                       child: TextButton(
                           style: TextButton.styleFrom(
-                              side: BorderSide(
-                                  color: Colors.orange, width: 1.5),
-                              backgroundColor: Colors.deepOrange,
+                              backgroundColor:
+                                  Theme.of(context).secondaryHeaderColor,
                               textStyle: TextStyle(fontSize: 24)),
                           onPressed: addFarkle,
                           child: Text('Farkle')),
@@ -263,12 +265,12 @@ class _ScoreInputState extends State<ScoreInput> {
                       padding: const EdgeInsets.all(8.0),
                       child: TextButton(
                           style: TextButton.styleFrom(
-                              side: BorderSide(
-                                  color: Colors.orange, width: 1.5),
-                              backgroundColor: Colors.deepOrange,
+                              backgroundColor: Theme.of(context).shadowColor,
                               textStyle: TextStyle(fontSize: 24)),
                           onPressed: _bankIt,
-                          child: Text('Bank It')),
+                          child: Text('Bank It',
+                              style: TextStyle(
+                                  color: Theme.of(context).canvasColor))),
                     ),
                   )),
             ])

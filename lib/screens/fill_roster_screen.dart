@@ -44,10 +44,9 @@ class FillRosterScreen extends StatelessWidget {
     final rosterPlayers = rosterData.players;
 
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
         leading: IconButton(icon: Icon(Icons.arrow_back), onPressed: () => backAPage(context),),
-        title: Text('Fill Your Roster'),
+        title: Text('Fill Your Roster', style: TextStyle(color: Theme.of(context).cardColor)),
       ),
       body: LayoutBuilder(builder: (ctx, constraints) {
         return Column(
@@ -65,13 +64,14 @@ class FillRosterScreen extends StatelessWidget {
                       horizontal: 5,
                     ),
                     child: ListTile(
+                      tileColor: Theme.of(context).dividerColor,
                       isThreeLine: true,
                       contentPadding: EdgeInsets.symmetric(vertical: 5),
                       leading: Container(
                         height: double.infinity,
                         child: CircleAvatar(
                             radius: 40,
-                            backgroundColor: Colors.teal,
+                            backgroundColor: Theme.of(context).shadowColor,
                             child: Padding(
                                 padding: const EdgeInsets.all(5),
                                 child: FittedBox(
@@ -79,12 +79,12 @@ class FillRosterScreen extends StatelessWidget {
                                       rosterPlayers[index].player.name.substring(0, 1),
                                       style: Theme.of(context)
                                           .textTheme
-                                          .bodyText1),
+                                          .titleLarge),
                                 ))),
                       ),
                       title: Text(
                         rosterPlayers[index].player.name,
-                        style: Theme.of(context).textTheme.headline6,
+                        style: Theme.of(context).textTheme.headlineLarge,
                       ),
                       subtitle: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -92,14 +92,16 @@ class FillRosterScreen extends StatelessWidget {
                           children: <Widget>[
                             Text(
                                 'Wins: ${rosterPlayers[index].player.wins} | Losses: ${rosterPlayers[index].player.losses}',
-                                style: Theme.of(context).textTheme.headline5),
+                                style: Theme.of(context).textTheme.headlineMedium),
                             Text('Best Score: ${rosterPlayers[index].player.bestScore}',
-                                style: Theme.of(context).textTheme.headline5),
+                                style: Theme.of(context).textTheme.headlineMedium),
                           ]),
                       trailing: IconButton(
-                        icon: const Icon(Icons.clear),
-                        iconSize: 35,
-                        color: Theme.of(context).errorColor,
+                        icon: const Icon(
+                          Icons.remove_circle_outline,
+                        ),
+                        iconSize: 45,
+                        color: Theme.of(context).canvasColor,
                         onPressed: () => {
                           Provider.of<Roster>(context, listen: false).removePlayer(
                             rosterPlayers[index].player
@@ -127,8 +129,8 @@ class FillRosterScreen extends StatelessWidget {
                           padding: EdgeInsets.only(bottom: 5),
                           child: TextButton(
                               style: TextButton.styleFrom(
-                                  backgroundColor: Colors.teal,
-                                  textStyle: TextStyle(fontSize: 18)),
+                                  backgroundColor: Theme.of(context).secondaryHeaderColor,
+                                  textStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                               onPressed: () => navToAddExistingPlayers(context),
                               child: Text('Add Existing Player'))),
                       Container(
@@ -137,8 +139,8 @@ class FillRosterScreen extends StatelessWidget {
                           padding: EdgeInsets.only(bottom: 5),
                           child: TextButton(
                               style: TextButton.styleFrom(
-                                  backgroundColor: Colors.teal,
-                                  textStyle: TextStyle(fontSize: 18)),
+                                  backgroundColor: Theme.of(context).secondaryHeaderColor,
+                                  textStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                               onPressed: () => addNewPlayer(context),
                               child: Text('Add New Player')))
                     ],
@@ -154,12 +156,12 @@ class FillRosterScreen extends StatelessWidget {
                             width: constraints.maxWidth - 25,
                             child: TextButton(
                                 style: TextButton.styleFrom(
-                                    backgroundColor: Colors.deepOrange,
+                                    backgroundColor: Theme.of(context).shadowColor,
                                     textStyle: TextStyle(
                                         fontSize: 30,
                                         fontWeight: FontWeight.bold)),
                                 onPressed: () => navToSetPlayerOrder(context),
-                                child: Text('Ready'))),
+                                child: Text('Ready', style: TextStyle(color: Theme.of(context).canvasColor)))),
                       ]),
                 ],
               ),

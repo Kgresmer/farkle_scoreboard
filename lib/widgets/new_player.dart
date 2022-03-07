@@ -20,7 +20,8 @@ class _NewPlayerState extends State<NewPlayer> {
     var newPlayer = new Player(name: nameInput, color: 1);
 
     Provider.of<Roster>(context, listen: false).addPlayer(newPlayer);
-    Provider.of<ExistingPlayers>(context, listen: false).addPlayer(new ExistingPlayer(player: newPlayer, selected: false));
+    Provider.of<ExistingPlayers>(context, listen: false)
+        .addPlayer(new ExistingPlayer(player: newPlayer, selected: false));
     Navigator.of(context).pop();
   }
 
@@ -30,6 +31,7 @@ class _NewPlayerState extends State<NewPlayer> {
       child: Card(
         elevation: 5,
         child: Container(
+          color: Theme.of(context).secondaryHeaderColor,
           padding: EdgeInsets.only(
               top: 25,
               bottom: MediaQuery.of(context).viewInsets.bottom + 30,
@@ -39,36 +41,45 @@ class _NewPlayerState extends State<NewPlayer> {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
               TextField(
-                cursorColor: Colors.teal,
+                autofocus: true,
+                style: TextStyle(
+                    height: 1.4,
+                    decorationColor: Theme.of(context).secondaryHeaderColor,
+                    color: Theme.of(context).cardColor,
+                    fontSize: 21,
+                    fontWeight: FontWeight.w500,
+                    decoration: TextDecoration.none),
+                cursorColor: Theme.of(context).cardColor,
                 decoration: InputDecoration(
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.symmetric(horizontal: 3),
                     labelText: 'Player Name:',
                     icon: Icon(
                       Icons.account_circle,
-                      size: 35,
-                      color: Colors.teal,
+                      size: 45,
+                      color: Theme.of(context).shadowColor,
                     ),
                     labelStyle: TextStyle(
-                      fontSize: 24,
-                      color: Colors.teal,
-                      height: 0.2
-                    ),
+                        fontSize: 25,
+                        fontWeight: FontWeight.w500,
+                        color: Theme.of(context).cardColor,
+                        height: 0.3),
                     enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.teal)),
+                        borderSide:
+                            BorderSide(color: Theme.of(context).cardColor)),
                     focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.teal))),
+                        borderSide:
+                            BorderSide(color: Theme.of(context).cardColor))),
                 controller: _nameController,
-                autofocus: true,
                 onSubmitted: (_) => _submitData(),
               ),
               Padding(
                 padding: EdgeInsets.only(top: 15),
-                child: RaisedButton(
+                child: ElevatedButton(
                     child: Text(
                       'Add Player',
-                      style: TextStyle(fontSize: 18),
+                      style: TextStyle(fontSize: 19),
                     ),
-                    color: Theme.of(context).accentColor,
-                    textColor: Colors.white,
                     onPressed: _submitData),
               )
             ],

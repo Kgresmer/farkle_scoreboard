@@ -34,6 +34,7 @@ class Roster with ChangeNotifier {
     for (int i = 0; i < _players.length; i++) {
       if (_players[i].active == true) {
         RosterPlayer currentActive = _players[i];
+        currentActive.farkles = 0;
         currentActive.score += score;
         currentActive.active = false;
         if (currentActive.score >= 10000 || isFinalRound) {
@@ -76,5 +77,23 @@ class Roster with ChangeNotifier {
       }
     }
     notifyListeners();
+  }
+
+  RosterPlayer getWinner() {
+    print('get winner');
+    RosterPlayer winner = _players[0];
+    _players.forEach((p) => {
+      if (p.score > winner.score) winner = p
+    });
+    return winner;
+  }
+
+  void restartGame() {
+    print('restarting');
+    _players.forEach((p) => {
+      p.farkles = 0,
+      p.score = 0,
+      p.isComplete = false
+    });
   }
 }

@@ -20,25 +20,27 @@ class AddExistingPlayerScreen extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
         leading: IconButton(icon: Icon(Icons.arrow_back), onPressed: () => backAPage(context),),
-        title: Text('Add Existing Players'),
+        title: Text('Add Existing Players', style: TextStyle(color: Theme.of(context).cardColor)),
       ),
       body: LayoutBuilder(builder: (ctx, constraints) {
         return Column(
           children: <Widget>[
             Container(
-                height: constraints.maxHeight * .04,
+                height: constraints.maxHeight * .06,
+                width: constraints.maxWidth,
+                color: Theme.of(context).secondaryHeaderColor,
+                padding: EdgeInsets.symmetric(vertical: 4),
                 child: Center(
                   child: Text('click player card(s) to add to roster',
                       style: Theme
                           .of(context)
                           .textTheme
-                          .bodyText2),)
+                          .displaySmall),)
             ),
             Container(
-              height: constraints.maxHeight * .84,
+              height: constraints.maxHeight * .82,
               child: ExistingPlayerList(),
             ),
             Container(
@@ -52,11 +54,11 @@ class AddExistingPlayerScreen extends StatelessWidget {
                         width: constraints.maxWidth - 25,
                         child: TextButton(
                             style: TextButton.styleFrom(
-                                backgroundColor: Colors.deepOrange,
+                                backgroundColor: Theme.of(context).shadowColor,
                                 textStyle: TextStyle(
                                     fontSize: 30, fontWeight: FontWeight.bold)),
                             onPressed: () => backToFillYourRoster(context),
-                            child: Text('Done'))),
+                            child: Text('Done', style: TextStyle(color: Theme.of(context).canvasColor)))),
                   ]),
             ),
           ],
