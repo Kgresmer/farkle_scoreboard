@@ -1,4 +1,5 @@
 import '../FileService.dart';
+import '../models/Player.dart';
 import '../providers/roster.dart';
 import '../models/ExistingPlayer.dart';
 import '../models/RosterPlayer.dart';
@@ -30,8 +31,8 @@ class _ExistingPlayerListState extends State<ExistingPlayerList> {
   @override
   void initState() {
     super.initState();
-    FileService.readcontent().then((String content) => {
-      print(content)
+    FileService.readContent().then((List<Player> players) => {
+      Provider.of<ExistingPlayers>(context, listen: false).loadPlayers(players)
     });
   }
 

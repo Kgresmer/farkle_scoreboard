@@ -20,4 +20,27 @@ class Player {
     color = AvatarColors.getAvatarColor(_random.nextInt(10));
     id = Uuid().v4();
   }
+
+  Map toJson() => {
+        'name': name,
+        'id': id,
+        'color': color.value,
+        'wins': wins,
+        'losses': losses,
+        'bestScore': bestScore,
+      };
+
+  Player.load(
+      this.id, this.name, this.color, this.wins, this.losses, this.bestScore);
+
+  factory Player.fromJsonMap(dynamic data) {
+    Color color = Color(data['color']);
+    return Player.load(
+        data['id'] as String,
+        data['name'] as String,
+        color,
+        data['losses'],
+        data['bestScore'],
+        data['wins']);
+  }
 }

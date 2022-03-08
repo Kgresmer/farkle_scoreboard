@@ -1,5 +1,7 @@
 import 'dart:io';
+import 'dart:convert';
 import 'package:path_provider/path_provider.dart';
+import 'models/Player.dart';
 
 class FileService {
 
@@ -13,20 +15,25 @@ class FileService {
     return File('$path/data.txt');
   }
 
-  static Future<String> readcontent() async {
+  static Future<List<Player>> readContent() async {
     try {
       final file = await _localFile;
-      String contents = await file.readAsString();
-      // TODO turn into players
-      return contents;
+      String jsonString = await file.readAsString();
+      List<Object> objects = jsonDecode(jsonString);
+      List<Player> players = [];
+      objects.forEach((p) => players.add(Player.fromJsonMap(p)));
+      return players;
     } catch (e) {
-      return 'Error';
+      print(e.toString());
+      return [];
     }
   }
 
   static Future<File> writeContent(String content) async {
     final file = await _localFile;
     print('writing $content');
-    return file.writeAsString(content);
+    List<Player> players = [new Player(name: 'Kevin'), new Player(name: 'Sigrid')];
+    String jsonUser = jsonEncode(players);
+    return file.writeAsString(jsonUser);
   }
 }
