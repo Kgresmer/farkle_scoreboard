@@ -20,7 +20,6 @@ class _GameOverScreenState extends State<GameOverScreen> {
   @override
   void initState() {
     super.initState();
-    print('init state game over');
     RosterPlayer temp = Provider.of<Roster>(context, listen: false).getWinner();
     if (temp != null) {
       setState(() {
@@ -50,7 +49,6 @@ class _GameOverScreenState extends State<GameOverScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print('building game over screen');
     String name = (winner?.player?.name != null) ? winner.player.name : '';
 
     return Scaffold(

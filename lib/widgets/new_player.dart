@@ -30,7 +30,6 @@ class _NewPlayerState extends State<NewPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    print('building new player');
     return SingleChildScrollView(
       child: Card(
         elevation: 5,

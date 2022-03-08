@@ -28,7 +28,6 @@ class _ExistingPlayerListState extends State<ExistingPlayerList> {
 
   @override
   Widget build(BuildContext context) {
-    print('building existing player screen');
     final existingPlayersData = Provider.of<ExistingPlayers>(context);
     final existingPlayers = existingPlayersData.players.values.toList();
     final rosterPlayersData = Provider.of<Roster>(context);
