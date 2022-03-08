@@ -29,11 +29,10 @@ class FileService {
     }
   }
 
-  static Future<File> writeContent(String content) async {
+  static Future<File> writeContent(List<Player> players) async {
     final file = await _localFile;
-    print('writing $content');
-    List<Player> players = [new Player(name: 'Kevin'), new Player(name: 'Sigrid')];
-    String jsonUser = jsonEncode(players);
+    List<Player> defaultPlayers = [new Player(name: 'Kevin'), new Player(name: 'Sigrid')];
+    String jsonUser = jsonEncode(players.length == 0 ? defaultPlayers : players);
     return file.writeAsString(jsonUser);
   }
 }

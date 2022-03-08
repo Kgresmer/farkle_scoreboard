@@ -1,6 +1,7 @@
 import 'package:farkle_scoreboard/models/ExistingPlayer.dart';
 import 'package:farkle_scoreboard/providers/existing_players.dart';
 
+import '../FileService.dart';
 import '../models/Player.dart';
 import '../providers/roster.dart';
 import 'package:flutter/material.dart';
@@ -20,8 +21,10 @@ class _NewPlayerState extends State<NewPlayer> {
     var newPlayer = new Player(name: nameInput);
 
     Provider.of<Roster>(context, listen: false).addPlayer(newPlayer);
+    List<ExistingPlayer> existingPlayers = Provider.of<ExistingPlayers>(context, listen: false).players.values.toList();
     Provider.of<ExistingPlayers>(context, listen: false)
         .addPlayer(new ExistingPlayer(player: newPlayer, selected: false));
+    FileService.writeContent([...existingPlayers.map((e) => e.player), newPlayer]);
     Navigator.of(context).pop();
   }
 

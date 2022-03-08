@@ -1,3 +1,6 @@
+import '../FileService.dart';
+import '../models/ExistingPlayer.dart';
+import '../providers/existing_players.dart';
 import './fill_roster_screen.dart';
 import 'package:provider/provider.dart';
 import '../models/RosterPlayer.dart';
@@ -11,6 +14,18 @@ class GameOverScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     RosterPlayer winner =
         Provider.of<Roster>(context, listen: false).getWinner();
+    List<ExistingPlayer> existingPlayers = Provider.of<ExistingPlayers>(context, listen: false).players.values.toList();
+    existingPlayers.forEach((ep) => {
+      if (ep.player.id == winner.player.id) {
+        if (ep.player.bestScore < winner.score) {
+          ep.player.bestScore = winner.score,
+          ep.player.wins += 1
+        }
+      } else {
+        ep.player.losses += 1
+      }
+    });
+    FileService.writeContent([...existingPlayers.map((e) => e.player)]);
     Provider.of<Roster>(context, listen: false).restartGame();
 
     return Scaffold(
