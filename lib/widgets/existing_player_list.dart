@@ -1,5 +1,5 @@
-import 'package:farkle_scoreboard/providers/roster.dart';
-
+import '../FileService.dart';
+import '../providers/roster.dart';
 import '../models/ExistingPlayer.dart';
 import '../models/RosterPlayer.dart';
 import '../providers/existing_players.dart';
@@ -28,36 +28,49 @@ class _ExistingPlayerListState extends State<ExistingPlayerList> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    FileService.readcontent().then((String content) => {
+      print(content)
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final existingPlayersData = Provider.of<ExistingPlayers>(context);
     final existingPlayers = existingPlayersData.players.values.toList();
     final rosterPlayersData = Provider.of<Roster>(context);
     final rosterPlayers = rosterPlayersData.players;
     RosterPlayer rosterPlayer = null;
-    existingPlayers.forEach((ep) => {
-          rosterPlayer = rosterPlayers.firstWhere(
+    existingPlayers.forEach((ep) =>
+    {
+      rosterPlayer = rosterPlayers.firstWhere(
               (rp) => rp.player.id == ep.player.id,
-              orElse: () => null),
-          if (rosterPlayer != null)
-            {ep.selected = true}
-          else
-            {ep.selected = false}
-        });
+          orElse: () => null),
+      if (rosterPlayer != null)
+        {ep.selected = true}
+      else
+        {ep.selected = false}
+    });
 
     void removeExistingPlayer(ExistingPlayer existingPlayer) {
       showDialog(
         context: context,
-        builder: (context) => new AlertDialog(
+        builder: (context) =>
+        new AlertDialog(
           title: new Text('Are you sure?'),
-          content: new Text('Removing this player will erase them and all their history'),
+          content: new Text(
+              'Removing this player will erase them and all their history'),
           actions: <Widget>[
             TextButton(
               onPressed: () => Navigator.of(context).pop(false),
               child: new Text('No'),
             ),
             TextButton(
-              onPressed: () => {
-                Provider.of<ExistingPlayers>(context, listen: false).removePlayer(existingPlayer),
+              onPressed: () =>
+              {
+                Provider.of<ExistingPlayers>(context, listen: false)
+                    .removePlayer(existingPlayer),
                 Navigator.of(context).pop(false)
               },
               child: new Text('Yes'),
@@ -78,8 +91,12 @@ class _ExistingPlayerListState extends State<ExistingPlayerList> {
             horizontal: 5,
           ),
           child: ListTile(
-              tileColor: Theme.of(context).dividerColor,
-              selectedTileColor: Theme.of(context).shadowColor,
+              tileColor: Theme
+                  .of(context)
+                  .dividerColor,
+              selectedTileColor: Theme
+                  .of(context)
+                  .shadowColor,
               selected: existingPlayers[index].selected,
               onTap: () => selectPlayer(existingPlayers[index]),
               isThreeLine: true,
@@ -88,51 +105,77 @@ class _ExistingPlayerListState extends State<ExistingPlayerList> {
                 height: double.infinity,
                 child: CircleAvatar(
                     radius: 40,
-                    backgroundColor: Theme.of(context).shadowColor,
+                    backgroundColor: existingPlayers[index].player.color,
                     child: Padding(
                         padding: const EdgeInsets.all(5),
                         child: FittedBox(
                           child: existingPlayers[index].selected
                               ? Icon(
-                                  Icons.check,
-                                  size: 40,
-                                )
+                            Icons.check,
+                            size: 40
+                          )
                               : Text(
-                                  existingPlayers[index]
-                                      .player
-                                      .name
-                                      .substring(0, 1),
-                                  style:
-                                      Theme.of(context).textTheme.titleLarge),
+                              existingPlayers[index]
+                                  .player
+                                  .name
+                                  .substring(0, 1),
+                              style:
+                              Theme
+                                  .of(context)
+                                  .textTheme
+                                  .titleLarge),
                         ))),
               ),
               title: Text(
                 existingPlayers[index].player.name,
                 style: existingPlayers[index].selected
-                    ? Theme.of(context).textTheme.bodyMedium
-                    : Theme.of(context).textTheme.headlineLarge,
+                    ? Theme
+                    .of(context)
+                    .textTheme
+                    .bodyMedium
+                    : Theme
+                    .of(context)
+                    .textTheme
+                    .headlineLarge,
               ),
               subtitle: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                        'Wins: ${existingPlayers[index].player.wins} | Losses: ${existingPlayers[index].player.losses}',
+                        'Wins: ${existingPlayers[index].player
+                            .wins} | Losses: ${existingPlayers[index].player
+                            .losses}',
                         style: existingPlayers[index].selected
-                            ? Theme.of(context).textTheme.bodySmall
-                            : Theme.of(context).textTheme.headlineMedium),
+                            ? Theme
+                            .of(context)
+                            .textTheme
+                            .bodySmall
+                            : Theme
+                            .of(context)
+                            .textTheme
+                            .headlineMedium),
                     Text(
-                        'Best Score: ${existingPlayers[index].player.bestScore}',
+                        'Best Score: ${existingPlayers[index].player
+                            .bestScore}',
                         style: existingPlayers[index].selected
-                            ? Theme.of(context).textTheme.bodySmall
-                            : Theme.of(context).textTheme.headlineMedium),
+                            ? Theme
+                            .of(context)
+                            .textTheme
+                            .bodySmall
+                            : Theme
+                            .of(context)
+                            .textTheme
+                            .headlineMedium),
                   ]),
               trailing: IconButton(
                 icon: const Icon(
                   Icons.remove_circle_outline,
                 ),
                 iconSize: 45,
-                color: Theme.of(context).canvasColor,
+                color: Theme
+                    .of(context)
+                    .canvasColor,
                 onPressed: () => removeExistingPlayer(existingPlayers[index]),
               )),
         );

@@ -84,7 +84,7 @@ class FillRosterScreen extends StatelessWidget {
                               child: CircleAvatar(
                                   radius: 40,
                                   backgroundColor:
-                                      Theme.of(context).shadowColor,
+                                      rosterPlayers[index].player.color,
                                   child: Padding(
                                       padding: const EdgeInsets.all(5),
                                       child: FittedBox(

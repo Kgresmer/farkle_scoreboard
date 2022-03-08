@@ -17,7 +17,7 @@ class _NewPlayerState extends State<NewPlayer> {
   void _submitData() {
     final nameInput = _nameController.text;
     if (nameInput.isEmpty) return;
-    var newPlayer = new Player(name: nameInput, color: 1);
+    var newPlayer = new Player(name: nameInput);
 
     Provider.of<Roster>(context, listen: false).addPlayer(newPlayer);
     Provider.of<ExistingPlayers>(context, listen: false)

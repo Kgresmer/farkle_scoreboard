@@ -1,5 +1,4 @@
-import 'package:farkle_scoreboard/screens/game_over_screen.dart';
-
+import './screens/game_over_screen.dart';
 import './providers/scoreboard.dart';
 import './providers/roster.dart';
 import './screens/add_existing_player_screen.dart';

@@ -5,17 +5,14 @@ import 'package:flutter/material.dart';
 class ExistingPlayers with ChangeNotifier {
   static List<Player> staticPlayers = [
     Player(name: 'Kevin',
-        color: 1,
         wins: 5,
         losses: 1,
         bestScore: 10200),
     Player(name: 'Sigrid',
-        color: 2,
         wins: 1,
         losses: 5,
         bestScore: 9900),
     Player(name: 'George',
-        color: 4,
         wins: 16,
         losses: 15,
         bestScore: 10900),
