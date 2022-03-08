@@ -80,6 +80,7 @@ class Roster with ChangeNotifier {
   }
 
   RosterPlayer getWinner() {
+    print('get winner');
     RosterPlayer winner = _players[0];
     _players.forEach((p) => {
       if (p.score > winner.score) winner = p
@@ -88,6 +89,7 @@ class Roster with ChangeNotifier {
   }
 
   void restartGame() {
+    print('restart game');
     _players.forEach((p) => {
       p.farkles = 0,
       p.score = 0,

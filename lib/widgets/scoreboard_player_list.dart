@@ -16,7 +16,7 @@ class ScoreboardPlayerList extends StatelessWidget {
               padding: const EdgeInsets.all(5),
               child: FittedBox(
                 child: Text('F',
-                    style: Theme.of(context).textTheme.bodyMedium),
+                    style: Theme.of(context).textTheme.headlineLarge),
               ))));
     }
     return Padding(padding: EdgeInsets.only(right: 15), child: Row(children: <Widget>[...farkles]));
@@ -67,7 +67,7 @@ class ScoreboardPlayerList extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 15),
                   child: FittedBox(
                     child: Text(_players[index].player.name,
-                        style: _players[index].active ? Theme.of(context).textTheme.titleLarge : Theme.of(context).textTheme.headlineLarge),
+                        style: (_players[index].active != null && _players[index].active) ? Theme.of(context).textTheme.titleLarge : Theme.of(context).textTheme.headlineLarge),
                   )),
             ),
             title: Padding(

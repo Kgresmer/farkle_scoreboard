@@ -1,5 +1,3 @@
-import '../FileService.dart';
-import '../models/Player.dart';
 import '../providers/roster.dart';
 import '../models/ExistingPlayer.dart';
 import '../models/RosterPlayer.dart';
@@ -29,20 +27,13 @@ class _ExistingPlayerListState extends State<ExistingPlayerList> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    FileService.readContent().then((List<Player> players) => {
-      Provider.of<ExistingPlayers>(context, listen: false).loadPlayers(players)
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
+    print('building existing player screen');
     final existingPlayersData = Provider.of<ExistingPlayers>(context);
     final existingPlayers = existingPlayersData.players.values.toList();
     final rosterPlayersData = Provider.of<Roster>(context);
     final rosterPlayers = rosterPlayersData.players;
-    RosterPlayer rosterPlayer = null;
+    RosterPlayer rosterPlayer;
     existingPlayers.forEach((ep) =>
     {
       rosterPlayer = rosterPlayers.firstWhere(

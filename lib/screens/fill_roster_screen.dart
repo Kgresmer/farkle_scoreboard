@@ -1,3 +1,6 @@
+import '../FileService.dart';
+import '../models/Player.dart';
+import '../providers/existing_players.dart';
 import './add_existing_player_screen.dart';
 import '../providers/roster.dart';
 import '../widgets/new_player.dart';
@@ -42,6 +45,9 @@ class FillRosterScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final rosterData = Provider.of<Roster>(context);
     final rosterPlayers = rosterData.players;
+    FileService.readContent().then((List<Player> players) => {
+      Provider.of<ExistingPlayers>(context, listen: false).loadPlayers(players)
+    });
 
     return Scaffold(
       appBar: AppBar(
