@@ -1,3 +1,4 @@
+import '../widgets/GameAssets.dart';
 import '../FileService.dart';
 import '../models/ExistingPlayer.dart';
 import '../providers/existing_players.dart';
@@ -17,10 +18,18 @@ class GameOverScreen extends StatefulWidget {
 
 class _GameOverScreenState extends State<GameOverScreen> {
   RosterPlayer winner;
+  GameAssets _assets;
+  bool _loaded = false;
 
   @override
   void initState() {
     super.initState();
+    _assets = GameAssets();
+    _assets.load().then((_) {
+      setState(() {
+        _loaded = true;
+      });
+    });
     RosterPlayer temp = Provider.of<Roster>(context, listen: false).getWinner();
     if (temp != null) {
       setState(() {
@@ -64,10 +73,11 @@ class _GameOverScreenState extends State<GameOverScreen> {
             Container(
                 height: constraints.maxHeight * .12,
                 child: Center(
-                  child: Text(
+                  child: !_loaded ? Text(
                     'You crushed it $name!',
                     style: Theme.of(context).textTheme.displayLarge,
-                  ),
+                  ) : Text(
+                    'You crushed it $name!'),
                 )),
             Container(
                 height: constraints.maxHeight * .76,
