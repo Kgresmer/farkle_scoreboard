@@ -8,7 +8,7 @@
          FlutterApplication and put your custom class here. -->
     <application
         android:name="${applicationName}"
-        android:label="farkle_scoreboard"
+        android:label="Farkle Scoreboard"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
