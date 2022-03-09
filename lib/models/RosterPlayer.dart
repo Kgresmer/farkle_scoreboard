@@ -14,5 +14,6 @@ class RosterPlayer {
       this.score = 0,
       this.farkles = 0,
       this.playOrder = 0,
+      this.active = false,
       this.isComplete = false});
 }

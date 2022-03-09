@@ -53,7 +53,8 @@ class MyApp extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
                 primary: yellow,
                 onPrimary: blackish,
-                textStyle: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: blackish),
+                textStyle: TextStyle(
+                    fontSize: 24, fontWeight: FontWeight.bold, color: blackish),
               ),
             ),
             secondaryHeaderColor: teal,
@@ -63,6 +64,13 @@ class MyApp extends StatelessWidget {
             dividerColor: teal,
             disabledColor: Colors.white54,
             textTheme: ThemeData.light().textTheme.copyWith(
+                displayLarge: TextStyle(shadows: <Shadow>[
+                  Shadow(
+                    offset: Offset(2.0, 2.0),
+                    blurRadius: 4.0,
+                    color: teal,
+                  ),
+                ], fontSize: 26, color: yellow, fontWeight: FontWeight.bold),
                 displayMedium: TextStyle(
                     fontSize: 20, color: white, fontWeight: FontWeight.w600),
                 displaySmall: TextStyle(
@@ -78,7 +86,9 @@ class MyApp extends StatelessWidget {
                 titleLarge: TextStyle(
                     color: blackish, fontSize: 23, fontWeight: FontWeight.w600),
                 titleMedium: TextStyle(
-                    color: blackish, fontSize: 18, fontWeight: FontWeight.w500)),
+                    color: blackish,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500)),
             visualDensity: VisualDensity.adaptivePlatformDensity,
             appBarTheme: AppBarTheme(
                 color: teal,
