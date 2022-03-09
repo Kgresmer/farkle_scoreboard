@@ -44,7 +44,7 @@ flutter_icons:
   ios: true
   image_path: "assets/farkleicon.png"
   adaptive_icon_background: "#191919"
-  adaptive_icon_foreground: "assets/places-adaptive.png"
+  adaptive_icon_foreground: "assets/farkleicon-adaptive.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
