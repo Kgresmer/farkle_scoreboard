@@ -1,6 +1,6 @@
 import 'package:farkle_scoreboard/models/ExistingPlayer.dart';
 import 'package:farkle_scoreboard/providers/existing_players.dart';
-
+import 'package:fluttertoast/fluttertoast.dart';
 import '../FileService.dart';
 import '../models/Player.dart';
 import '../providers/roster.dart';
@@ -16,16 +16,30 @@ class _NewPlayerState extends State<NewPlayer> {
   final _nameController = TextEditingController();
 
   void _submitData() {
-    final nameInput = _nameController.text;
+    final nameInput = _nameController.text.trim();
     if (nameInput.isEmpty) return;
-    var newPlayer = new Player(name: nameInput);
-
-    Provider.of<Roster>(context, listen: false).addPlayer(newPlayer);
     List<ExistingPlayer> existingPlayers = Provider.of<ExistingPlayers>(context, listen: false).players.values.toList();
-    Provider.of<ExistingPlayers>(context, listen: false)
-        .addPlayer(new ExistingPlayer(player: newPlayer, selected: false));
-    FileService.writeContent([...existingPlayers.map((e) => e.player), newPlayer]);
-    Navigator.of(context).pop();
+    if (existingPlayers.firstWhere((ep) => ep.player.name.toLowerCase() == nameInput.toLowerCase(), orElse: () => null) != null) {
+      Fluttertoast.showToast(
+          msg: "That name is already taken",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Theme.of(context).canvasColor,
+          textColor: Theme.of(context).cardColor,
+          fontSize: 16.0
+      );
+    } else {
+      var newPlayer = new Player(name: nameInput);
+
+      if (Provider.of<Roster>(context, listen: false).players.length < 15) {
+        Provider.of<Roster>(context, listen: false).addPlayer(newPlayer);
+      }
+      Provider.of<ExistingPlayers>(context, listen: false)
+          .addPlayer(new ExistingPlayer(player: newPlayer, selected: false));
+      FileService.writeContent([...existingPlayers.map((e) => e.player), newPlayer]);
+      Navigator.of(context).pop();
+    }
   }
 
   @override
