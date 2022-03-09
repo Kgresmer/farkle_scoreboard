@@ -37,6 +37,14 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.9.2
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/farkleicon.png"
+  adaptive_icon_background: "#191919"
+  adaptive_icon_foreground: "assets/places-adaptive.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -66,6 +74,7 @@ flutter:
     - assets/images/dice-5-kind.png
     - assets/images/dice-6-kind.png
     - assets/audio/add_score.mp3
+    - assets/images/home_screen_logo.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

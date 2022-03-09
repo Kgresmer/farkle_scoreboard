@@ -57,11 +57,10 @@ class LandingScreen extends StatelessWidget {
               height: constraints.maxHeight * .8,
               width: double.infinity,
               child: Center(
-                child: Text(
-                  'Welcome to \nFarkle Scoreboard',
-                  style: Theme.of(context).textTheme.displayMedium,
-                  textAlign: TextAlign.center,
-                ),
+                child: Image.asset('assets/images/home_screen_logo.png',
+                    width: constraints.maxWidth,
+                    height: constraints.maxHeight * .8,
+                    fit: BoxFit.contain),
               ),
             ),
             Container(
