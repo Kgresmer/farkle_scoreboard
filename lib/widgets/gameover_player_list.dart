@@ -21,6 +21,7 @@ class GameOverPlayerList extends StatelessWidget {
       itemBuilder: (ctx, index) {
         return Card(
           elevation: 5,
+          shadowColor: Colors.black,
           margin: const EdgeInsets.symmetric(
             vertical: 0,
             horizontal: 3,

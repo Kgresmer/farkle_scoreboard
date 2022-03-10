@@ -10,15 +10,18 @@ class ScoreboardPlayerList extends StatelessWidget {
   renderFarkles(BuildContext context, int numOfFarkles) {
     List<Widget> farkles = [];
     for (int i = 0; i < numOfFarkles; i++) {
-      farkles.add(CircleAvatar(
-          radius: 15,
-          backgroundColor: Theme.of(context).canvasColor,
-          child: Padding(
-              padding: const EdgeInsets.all(5),
-              child: FittedBox(
-                child: Text('F',
-                    style: Theme.of(context).textTheme.headlineLarge),
-              ))));
+      farkles.add(Padding(
+        padding: const EdgeInsets.only(right: 5),
+        child: CircleAvatar(
+            radius: 15,
+            backgroundColor: Theme.of(context).canvasColor,
+            child: Padding(
+                padding: const EdgeInsets.all(5),
+                child: FittedBox(
+                  child: Text('F',
+                      style: Theme.of(context).textTheme.headlineLarge),
+                ))),
+      ));
     }
     return Padding(padding: EdgeInsets.only(right: 15), child: Row(children: <Widget>[...farkles]));
   }
@@ -64,6 +67,7 @@ class ScoreboardPlayerList extends StatelessWidget {
       itemBuilder: (ctx, index) {
         return Card(
           elevation: 5,
+          shadowColor: Colors.black,
           margin: const EdgeInsets.symmetric(
             vertical: 4,
             horizontal: 5,

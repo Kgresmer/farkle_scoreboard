@@ -93,7 +93,10 @@ class _GameOverScreenState extends State<GameOverScreen> {
                                   backgroundColor: Theme.of(context).shadowColor,),
                               onPressed: () => backToRoster(context),
                               child: Text('Back to home',
-                                  style: Theme.of(context).textTheme.titleLarge))),
+                                  style: TextStyle(
+                                      color: Theme.of(context).canvasColor,
+                                      fontSize: 34,
+                                      fontWeight: FontWeight.bold)))),
                     ]),
               ),
             ],

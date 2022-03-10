@@ -5,6 +5,7 @@ import 'package:audioplayers/audioplayers.dart';
 import '../models/RosterPlayer.dart';
 import '../providers/roster.dart';
 import '../providers/scoreboard.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class ScoreInput extends StatefulWidget {
   @override
@@ -72,6 +73,7 @@ class _ScoreInputState extends State<ScoreInput> {
   ];
   bool animated = false;
   AudioCache _audioCache;
+  bool warningSent = false;
 
   @override
   void initState() {
@@ -98,9 +100,9 @@ class _ScoreInputState extends State<ScoreInput> {
     });
   }
 
-  void addFarkle() {
+  void addFarkle(int score) {
     Provider.of<Scoreboard>(context, listen: false).clearScore();
-    Provider.of<Roster>(context, listen: false).addFarkle();
+    if (score != 0) Provider.of<Roster>(context, listen: false).addFarkle();
     Navigator.of(context).pop();
   }
 
@@ -124,12 +126,29 @@ class _ScoreInputState extends State<ScoreInput> {
     }
   }
 
+  void displayWarningMessage() {
+    if (!warningSent)
+    Fluttertoast.showToast(
+        msg: "You have two farkles! Three in a row results in -1000 points!",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Theme.of(context).cardColor,
+        textColor: Theme.of(context).canvasColor,
+        fontSize: 14.0
+    );
+    setState(() {
+      warningSent = true;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     int currentScore = Provider.of<Scoreboard>(context).score;
     RosterPlayer activePlayer = Provider.of<Roster>(context)
         .players
         .firstWhere((p) => p.active == true);
+    if (activePlayer.farkles == 2) displayWarningMessage();
 
     return Container(
       height: MediaQuery.of(context).size.height * 0.96,
@@ -190,20 +209,12 @@ class _ScoreInputState extends State<ScoreInput> {
                         flex: 2,
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 14.0),
-                          child: TextButton(
-                              style: TextButton.styleFrom(
-                                  fixedSize: Size(50, 50),
-                                  padding: EdgeInsets.all(0),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(25.0),
-                                      side: BorderSide(
-                                          color: Theme.of(context)
-                                              .secondaryHeaderColor)),
-                                  backgroundColor:
-                                      Theme.of(context).secondaryHeaderColor,
-                                  textStyle: TextStyle(fontSize: 24)),
-                              onPressed: closeScoreInput,
-                              child: Text('X')),
+                          child: IconButton(
+                            iconSize: 40,
+                            color: Theme.of(context).secondaryHeaderColor,
+                            icon: Icon(Icons.close),
+                            onPressed: closeScoreInput,
+                          ),
                         ))
                   ],
                 ))),
@@ -218,6 +229,7 @@ class _ScoreInputState extends State<ScoreInput> {
                 child: Card(
                     color: Theme.of(context).dividerColor,
                     elevation: 5,
+                    shadowColor: Colors.black,
                     margin: const EdgeInsets.symmetric(
                       vertical: 4,
                       horizontal: 5,
@@ -268,10 +280,9 @@ class _ScoreInputState extends State<ScoreInput> {
                       padding: const EdgeInsets.fromLTRB(8, 8, 0, 8),
                       child: TextButton(
                           style: TextButton.styleFrom(
-                              backgroundColor:
-                                  Theme.of(context).secondaryHeaderColor,
+                              backgroundColor: Color(0xFF6F061E),
                               textStyle: TextStyle(fontSize: 24)),
-                          onPressed: addFarkle,
+                          onPressed: () => addFarkle(activePlayer.score),
                           child: Text('Farkle')),
                     ),
                   )),

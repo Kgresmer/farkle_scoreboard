@@ -18,7 +18,7 @@ void main() {
 class MyApp extends StatelessWidget {
   static const yellow = const Color(0xD9fccd00);
   static const blackish = const Color(0xFF3b3530);
-  static const teal = const Color(0xD94990a3);
+  static const teal = const Color(0xD93D798A);
   static const white = const Color(0xF2f3f9f9);
 
   @override
@@ -84,7 +84,7 @@ class MyApp extends StatelessWidget {
                 headlineMedium: TextStyle(
                     color: white, fontSize: 18, fontWeight: FontWeight.w500),
                 titleLarge: TextStyle(
-                    color: blackish, fontSize: 34, fontWeight: FontWeight.bold),
+                    color: blackish, fontSize: 23, fontWeight: FontWeight.bold),
                 titleMedium: TextStyle(
                     color: blackish,
                     fontSize: 18,
@@ -92,7 +92,7 @@ class MyApp extends StatelessWidget {
             visualDensity: VisualDensity.adaptivePlatformDensity,
             appBarTheme: AppBarTheme(
                 color: teal,
-                toolbarTextStyle: TextStyle(color: white),
+                toolbarTextStyle: TextStyle(color: white, fontSize: 26),
                 iconTheme: IconThemeData(color: white))),
         initialRoute: '/',
         routes: {

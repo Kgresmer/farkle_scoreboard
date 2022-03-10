@@ -97,6 +97,7 @@ class _ExistingPlayerListState extends State<ExistingPlayerList> {
       itemBuilder: (ctx, index) {
         return Card(
           elevation: 5,
+          shadowColor: Colors.black,
           margin: const EdgeInsets.symmetric(
             vertical: 8,
             horizontal: 5,

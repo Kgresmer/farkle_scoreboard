@@ -69,6 +69,7 @@ class _SetPlayerOrderScreenState extends State<SetPlayerOrderScreen> {
                     return Card(
                         key: UniqueKey(),
                         elevation: 5,
+                        shadowColor: Colors.black,
                         margin: const EdgeInsets.symmetric(
                           vertical: 8,
                           horizontal: 4,

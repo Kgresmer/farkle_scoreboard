@@ -47,6 +47,7 @@ class _NewPlayerState extends State<NewPlayer> {
     return SingleChildScrollView(
       child: Card(
         elevation: 5,
+        shadowColor: Colors.black,
         child: Container(
           color: Theme.of(context).secondaryHeaderColor,
           padding: EdgeInsets.only(
