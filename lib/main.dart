@@ -16,10 +16,10 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  var yellow = const Color(0xD9fccd00);
-  var blackish = const Color(0xFF3b3530);
-  var teal = const Color(0xD94990a3);
-  var white = const Color(0xF2f3f9f9);
+  static const yellow = const Color(0xD9fccd00);
+  static const blackish = const Color(0xFF3b3530);
+  static const teal = const Color(0xD94990a3);
+  static const white = const Color(0xF2f3f9f9);
 
   @override
   Widget build(BuildContext context) {
@@ -78,13 +78,13 @@ class MyApp extends StatelessWidget {
                 bodySmall: TextStyle(
                     color: blackish, fontSize: 18, fontWeight: FontWeight.w500),
                 bodyMedium: TextStyle(
-                    color: blackish, fontSize: 22, fontWeight: FontWeight.w500),
+                    color: blackish, fontSize: 23, fontWeight: FontWeight.w500),
                 headlineLarge: TextStyle(
                     color: white, fontSize: 23, fontWeight: FontWeight.w600),
                 headlineMedium: TextStyle(
                     color: white, fontSize: 18, fontWeight: FontWeight.w500),
                 titleLarge: TextStyle(
-                    color: blackish, fontSize: 23, fontWeight: FontWeight.w600),
+                    color: blackish, fontSize: 34, fontWeight: FontWeight.bold),
                 titleMedium: TextStyle(
                     color: blackish,
                     fontSize: 18,

@@ -134,7 +134,7 @@ class _ExistingPlayerListState extends State<ExistingPlayerList> {
                               Theme
                                   .of(context)
                                   .textTheme
-                                  .titleLarge),
+                                  .bodyMedium),
                         ))),
               ),
               title: Text(

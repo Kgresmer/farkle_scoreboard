@@ -1,3 +1,4 @@
+import 'package:farkle_scoreboard/screens/scoreboard_screen.dart';
 import 'package:provider/provider.dart';
 import '../models/RosterPlayer.dart';
 import 'package:flutter/material.dart';
@@ -23,18 +24,29 @@ class ScoreboardPlayerList extends StatelessWidget {
   }
 
   void evaluateIfGameIsOver(context) {
-    final rosterData = Provider.of<Roster>(context, listen: false);
-    final List<RosterPlayer> _players = [...rosterData.players];
-    if (_players.length > 0) {
-      RosterPlayer currentWinner = _players[0];
-      bool allComplete = true;
-      _players.forEach((p) =>
-      {
-        if (p.score > currentWinner.score) currentWinner = p,
-        if (!p.isComplete) {allComplete = false}
-      });
-      if (allComplete) {
-        Navigator.of(context).pushNamed(GameOverScreen.routeName);
+    bool isNewRouteSameAsCurrent = true;
+
+    Navigator.popUntil(context, (route) {
+      if (route.settings.name != ScoreboardScreen.routeName) {
+        isNewRouteSameAsCurrent = false;
+      }
+      return true;
+    });
+
+    if (isNewRouteSameAsCurrent) {
+      final rosterData = Provider.of<Roster>(context, listen: false);
+      final List<RosterPlayer> _players = [...rosterData.players];
+      if (_players.length > 0) {
+        RosterPlayer currentWinner = _players[0];
+        bool allComplete = true;
+        _players.forEach((p) =>
+        {
+          if (p.score > currentWinner.score) currentWinner = p,
+          if (!p.isComplete) {allComplete = false}
+        });
+        if (allComplete) {
+          Navigator.of(context).pushNamed(GameOverScreen.routeName);
+        }
       }
     }
   }
@@ -67,7 +79,7 @@ class ScoreboardPlayerList extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 15),
                   child: FittedBox(
                     child: Text(_players[index].player.name,
-                        style: (_players[index].active != null && _players[index].active) ? Theme.of(context).textTheme.titleLarge : Theme.of(context).textTheme.headlineLarge),
+                        style: (_players[index].active != null && _players[index].active) ? Theme.of(context).textTheme.bodyMedium : Theme.of(context).textTheme.headlineLarge),
                   )),
             ),
             title: Padding(
@@ -79,7 +91,7 @@ class ScoreboardPlayerList extends StatelessWidget {
                       context, _players[index].farkles),
                   Text(
                     _players[index].score.toString(),
-                    style: _players[index].active ? Theme.of(context).textTheme.titleLarge : Theme.of(context).textTheme.headlineLarge,
+                    style: _players[index].active ? Theme.of(context).textTheme.bodyMedium : Theme.of(context).textTheme.headlineLarge,
                   )
                 ],
               ),

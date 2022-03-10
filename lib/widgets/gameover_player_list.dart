@@ -10,7 +10,8 @@ class GameOverPlayerList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final rosterData = Provider.of<Roster>(context);
+    print('building game over list');
+    final rosterData = Provider.of<Roster>(context, listen: false);
     final List<RosterPlayer> _players = [...rosterData.players];
     _players.sort((a, b) => b.score.compareTo(a.score));
 
@@ -37,10 +38,14 @@ class GameOverPlayerList extends StatelessWidget {
             ),
             title: Padding(
                 padding: EdgeInsets.only(right: 25),
-                child: Text(
-                  _players[index].score.toString(),
-                  style: Theme.of(context).textTheme.headlineLarge,
-                )),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      Text(
+                        _players[index].score.toString(),
+                        style: Theme.of(context).textTheme.headlineLarge,
+                      )
+                    ])),
           ),
         );
       },

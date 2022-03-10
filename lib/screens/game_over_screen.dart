@@ -20,6 +20,7 @@ class _GameOverScreenState extends State<GameOverScreen> {
 
   @override
   void initState() {
+    print('init state game over');
     super.initState();
     RosterPlayer temp = Provider.of<Roster>(context, listen: false).getWinner();
     if (temp != null) {
@@ -30,6 +31,7 @@ class _GameOverScreenState extends State<GameOverScreen> {
   }
 
   void backToRoster(BuildContext ctx) {
+    print('back to roster');
     List<ExistingPlayer> existingPlayers =
         Provider.of<ExistingPlayers>(context, listen: false)
             .players
@@ -48,53 +50,56 @@ class _GameOverScreenState extends State<GameOverScreen> {
     Navigator.of(ctx).pushNamed(FillRosterScreen.routeName);
   }
 
+  Future<bool> _backAPage(BuildContext context) async {
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
+    print('building game over');
     String name = (winner?.player?.name != null) ? winner.player.name : '';
-    List<RosterPlayer> players =
-        Provider.of<Roster>(context, listen: false).players;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Farkle Scoreboard'),
-      ),
-      body: LayoutBuilder(builder: (ctx, constraints) {
-        return Column(
-          children: <Widget>[
-            Container(
+    return WillPopScope(
+      onWillPop: () => _backAPage(context),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('Farkle Scoreboard'),
+        ),
+        body: LayoutBuilder(builder: (ctx, constraints) {
+          return Column(
+            children: <Widget>[
+              Container(
+                  height: constraints.maxHeight * .12,
+                  child: Center(
+                    child: Text(
+                      'You crushed it $name!',
+                      style: Theme.of(context).textTheme.displayLarge,
+                    ),
+                  )),
+              Container(
+                  height: constraints.maxHeight * .76,
+                  child: GameOverPlayerList(winner)),
+              Container(
                 height: constraints.maxHeight * .12,
-                child: Center(
-                  child: Text(
-                    'You crushed it $name!',
-                    style: Theme.of(context).textTheme.displayLarge,
-                  ),
-                )),
-            Container(
-                height: constraints.maxHeight * .76,
-                child: GameOverPlayerList(winner)),
-            Container(
-              height: constraints.maxHeight * .12,
-              width: double.infinity,
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Container(
-                        height: constraints.maxHeight * .09,
-                        width: constraints.maxWidth - 25,
-                        child: TextButton(
-                            style: TextButton.styleFrom(
-                                backgroundColor: Theme.of(context).shadowColor,
-                                textStyle: TextStyle(
-                                    fontSize: 30, fontWeight: FontWeight.bold)),
-                            onPressed: () => backToRoster(context),
-                            child: Text('Back to home',
-                                style: TextStyle(
-                                    color: Theme.of(context).canvasColor)))),
-                  ]),
-            ),
-          ],
-        );
-      }),
+                width: double.infinity,
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      Container(
+                          height: constraints.maxHeight * .09,
+                          width: constraints.maxWidth - 25,
+                          child: TextButton(
+                              style: TextButton.styleFrom(
+                                  backgroundColor: Theme.of(context).shadowColor,),
+                              onPressed: () => backToRoster(context),
+                              child: Text('Back to home',
+                                  style: Theme.of(context).textTheme.titleLarge))),
+                    ]),
+              ),
+            ],
+          );
+        }),
+      ),
     );
   }
 }
