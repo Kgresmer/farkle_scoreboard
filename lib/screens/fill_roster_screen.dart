@@ -65,6 +65,7 @@ class _FillRosterScreenState extends State<FillRosterScreen> {
       onWillPop: () => _backAPage(context),
       child: Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           title: Text('Fill Your Roster',
               style: TextStyle(color: Theme.of(context).cardColor)),
         ),

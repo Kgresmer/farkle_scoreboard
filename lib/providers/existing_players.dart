@@ -1,3 +1,4 @@
+import '../FileService.dart';
 import '../models/ExistingPlayer.dart';
 import '../models/Player.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +24,7 @@ class ExistingPlayers with ChangeNotifier {
 
   void removePlayer(ExistingPlayer player) {
     _players.remove(player.player.id);
+    FileService.writeContent([..._players.values.map((e) => e.player)]);
     notifyListeners();
   }
 

@@ -82,7 +82,7 @@ class _ExistingPlayerListState extends State<ExistingPlayerList> {
               {
                 Provider.of<ExistingPlayers>(context, listen: false)
                     .removePlayer(existingPlayer),
-                Navigator.of(context).pop(false)
+              Navigator.of(context).pop(false)
               },
               child: new Text('Yes'),
             ),
