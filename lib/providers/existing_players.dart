@@ -1,7 +1,9 @@
+import './roster.dart';
 import '../FileService.dart';
 import '../models/ExistingPlayer.dart';
 import '../models/Player.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ExistingPlayers with ChangeNotifier {
   Map<String, ExistingPlayer> _players = {};
@@ -22,8 +24,9 @@ class ExistingPlayers with ChangeNotifier {
     notifyListeners();
   }
 
-  void removePlayer(ExistingPlayer player) {
+  void removePlayer(ExistingPlayer player, [BuildContext context]) {
     _players.remove(player.player.id);
+    Provider.of<Roster>(context, listen: false).removePlayer(player.player);
     FileService.writeContent([..._players.values.map((e) => e.player)]);
     notifyListeners();
   }

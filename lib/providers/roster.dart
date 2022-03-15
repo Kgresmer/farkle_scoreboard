@@ -4,9 +4,19 @@ import 'package:flutter/material.dart';
 
 class Roster with ChangeNotifier {
   List<RosterPlayer> _players = [];
+  bool threeOnesIsAThousand = false;
+  bool threeFarklesIsMinusAThousand = false;
+  int startingScoreEntry = 400;
 
   List<RosterPlayer> get players {
     return [..._players];
+  }
+
+  void setRules(int entryScore, bool farkleRule, bool onesRule) {
+    threeOnesIsAThousand = onesRule;
+    threeFarklesIsMinusAThousand = farkleRule;
+    startingScoreEntry = entryScore;
+    notifyListeners();
   }
 
   void addPlayer(Player player) {
@@ -60,7 +70,7 @@ class Roster with ChangeNotifier {
         RosterPlayer currentActive = _players[i];
         currentActive.farkles += 1;
         if (currentActive.farkles == 3) {
-          currentActive.score -= 1000;
+          if (threeFarklesIsMinusAThousand) currentActive.score -= 1000;
           currentActive.farkles = 0;
         }
         currentActive.active = false;

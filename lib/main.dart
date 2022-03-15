@@ -6,14 +6,20 @@ import './screens/fill_roster_screen.dart';
 import './screens/results_screen.dart';
 import './screens/scoreboard_screen.dart';
 import './screens/set_player_order_screen.dart';
+import './screens/set_settings_screen.dart';
 import './screens/landing_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import './providers/existing_players.dart';
+import 'package:flutter/services.dart';
 
-void main() {
-  runApp(MyApp());
-}
+void main() async => {
+  WidgetsFlutterBinding.ensureInitialized(),
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp],
+  ),
+  runApp(MyApp())
+};
 
 class MyApp extends StatelessWidget {
   static const yellow = const Color(0xD9fccd00);
@@ -45,7 +51,7 @@ class MyApp extends StatelessWidget {
                   primary: white,
                   elevation: 0,
                   textStyle:
-                      TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   padding: EdgeInsets.all(10)),
             ),
             elevatedButtonTheme: ElevatedButtonThemeData(
@@ -57,13 +63,23 @@ class MyApp extends StatelessWidget {
                     fontSize: 24, fontWeight: FontWeight.bold, color: blackish),
               ),
             ),
+            checkboxTheme: CheckboxThemeData(
+              fillColor: MaterialStateProperty.all(teal),
+              checkColor: MaterialStateProperty.all(yellow),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(45),
+              ),
+            ),
             secondaryHeaderColor: teal,
             shadowColor: yellow,
             canvasColor: blackish,
             cardColor: white,
             dividerColor: teal,
             disabledColor: Colors.white54,
-            textTheme: ThemeData.light().textTheme.copyWith(
+            textTheme: ThemeData
+                .light()
+                .textTheme
+                .copyWith(
                 displayLarge: TextStyle(shadows: <Shadow>[
                   Shadow(
                     offset: Offset(2.0, 2.0),
@@ -101,6 +117,7 @@ class MyApp extends StatelessWidget {
           FillRosterScreen.routeName: (ctx) => FillRosterScreen(),
           ResultsScreen.routeName: (ctx) => ResultsScreen(),
           ScoreboardScreen.routeName: (ctx) => ScoreboardScreen(),
+          SetSettingsScreen.routeName: (ctx) => SetSettingsScreen(),
           SetPlayerOrderScreen.routeName: (ctx) => SetPlayerOrderScreen(),
           GameOverScreen.routeName: (ctx) => GameOverScreen(),
         },

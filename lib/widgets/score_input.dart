@@ -23,7 +23,7 @@ class _ScoreInputState extends State<ScoreInput> {
         description: '1 five',
         imageUrl: 'assets/images/dice-five.png'),
     ScoreOption(
-        value: 1000,
+        value: 300,
         description: '3 Ones',
         imageUrl: 'assets/images/dice-3-ones.png'),
     ScoreOption(
@@ -82,13 +82,35 @@ class _ScoreInputState extends State<ScoreInput> {
       prefix: 'assets/audio/',
       fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP),
     );
+    ScoreOption onesOption = scoreOptions.firstWhere((op) => op.description == '3 Ones');
+    if (Provider.of<Roster>(context, listen: false).threeOnesIsAThousand) {
+      onesOption.value = 1000;
+      scoreOptions.insert(8, ScoreOption(
+          value: 1500,
+          description: '4 Ones',
+          imageUrl: 'assets/images/dice-4-ones.png'));
+    }
   }
 
   void _bankIt() {
     int currentScore = Provider.of<Scoreboard>(context, listen: false).score;
-    Provider.of<Roster>(context, listen: false).updateScore(currentScore);
-    Provider.of<Scoreboard>(context, listen: false).clearScore();
-    Navigator.of(context).pop();
+    int startingScoreEntry = Provider.of<Roster>(context, listen: false).startingScoreEntry;
+    RosterPlayer activePlayer = Provider.of<Roster>(context, listen: false).players.firstWhere((p) => p.active);
+    if (activePlayer.score == 0 && currentScore < startingScoreEntry) {
+      Fluttertoast.showToast(
+          msg: "You have to score above the minimum entry score of $startingScoreEntry",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Theme.of(context).canvasColor,
+          textColor: Theme.of(context).cardColor,
+          fontSize: 16.0
+      );
+    } else {
+      Provider.of<Roster>(context, listen: false).updateScore(currentScore);
+      Provider.of<Scoreboard>(context, listen: false).clearScore();
+      Navigator.of(context).pop();
+    }
   }
 
   void updateCurrentScore(int value) {
@@ -96,13 +118,22 @@ class _ScoreInputState extends State<ScoreInput> {
     Vibration.vibrate(duration: 130, amplitude: 65);
     _audioCache.play('add_score.mp3');
     setState(() {
-      animated = !animated;
+      animated = true;
+    });
+    Future.delayed(Duration(milliseconds: 200), () {
+      setState(() {
+        animated = false;
+      });
     });
   }
 
   void addFarkle(int score) {
     Provider.of<Scoreboard>(context, listen: false).clearScore();
-    if (score != 0) Provider.of<Roster>(context, listen: false).addFarkle();
+    if (score != 0) {
+      Provider.of<Roster>(context, listen: false).addFarkle();
+    } else {
+      Provider.of<Roster>(context, listen: false).updateScore(0);
+    }
     Navigator.of(context).pop();
   }
 
@@ -148,13 +179,16 @@ class _ScoreInputState extends State<ScoreInput> {
     RosterPlayer activePlayer = Provider.of<Roster>(context)
         .players
         .firstWhere((p) => p.active == true);
-    if (activePlayer.farkles == 2) displayWarningMessage();
+
+    if (activePlayer.farkles == 2 && Provider.of<Roster>(context).threeFarklesIsMinusAThousand) displayWarningMessage();
 
     return Container(
       height: MediaQuery.of(context).size.height * 0.96,
       child:
           Column(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
         Container(
+          margin: EdgeInsets.only(top: 10),
+          color: Theme.of(context).shadowColor,
             child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 16, horizontal: 10.0),
                 child: Row(
@@ -168,12 +202,12 @@ class _ScoreInputState extends State<ScoreInput> {
                               children: <Widget>[
                                 DefaultTextStyle(
                                   style:
-                                      Theme.of(context).textTheme.displayMedium,
+                                      Theme.of(context).textTheme.bodyMedium,
                                   child: Text(
                                       '${activePlayer.player.name}\'s current score: '),
                                 ),
                                 DefaultTextStyle(
-                                  style: Theme.of(context).textTheme.displayMedium,
+                                  style: Theme.of(context).textTheme.bodyMedium,
                                   child: Text('${activePlayer.score}'),
                                 )
                               ],
@@ -183,21 +217,22 @@ class _ScoreInputState extends State<ScoreInput> {
                             children: <Widget>[
                               DefaultTextStyle(
                                 style:
-                                    Theme.of(context).textTheme.displayMedium,
+                                    Theme.of(context).textTheme.bodyMedium,
                                 child: Text('Current turn total: '),
                               ),
                               DefaultTextStyle(
-                                style: Theme.of(context).textTheme.displayMedium,
+                                style: Theme.of(context).textTheme.bodyMedium,
                                 child: AnimatedDefaultTextStyle(
                                   child: Text('$currentScore'),
                                   style: animated
                                       ? TextStyle(
-                                    color: Colors.white,
+                                    color: Theme.of(context).canvasColor,
                                     fontSize: 26,
                                   )
                                       : TextStyle(
-                                    color: Colors.white,
+                                    color: Theme.of(context).canvasColor,
                                     fontSize: 22,
+                                    fontWeight: FontWeight.bold
                                   ),
                                   duration: Duration(milliseconds: 200),
                                 ),
@@ -211,7 +246,7 @@ class _ScoreInputState extends State<ScoreInput> {
                           padding: const EdgeInsets.symmetric(horizontal: 14.0),
                           child: IconButton(
                             iconSize: 40,
-                            color: Theme.of(context).secondaryHeaderColor,
+                            color: Theme.of(context).canvasColor,
                             icon: Icon(Icons.close),
                             onPressed: closeScoreInput,
                           ),
@@ -309,12 +344,11 @@ class _ScoreInputState extends State<ScoreInput> {
 }
 
 class ScoreOption {
-  final int value;
+  int value;
   final String description;
   final String imageUrl;
 
-  ScoreOption(
-      {@required this.value,
-      @required this.description,
-      @required this.imageUrl});
+  ScoreOption({@required this.value,
+    @required this.description,
+    @required this.imageUrl});
 }

@@ -1,7 +1,7 @@
+import './set_settings_screen.dart';
 import 'package:provider/provider.dart';
 import '../providers/roster.dart';
 import './fill_roster_screen.dart';
-import './scoreboard_screen.dart';
 import '../models/RosterPlayer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -26,13 +26,13 @@ class _SetPlayerOrderScreenState extends State<SetPlayerOrderScreen> {
     });
   }
 
-  void navToScoreboard(BuildContext ctx) {
+  void navToSettings(BuildContext ctx) {
     HapticFeedback.heavyImpact();
     // set play order
     for(var i=0; i<_roster.length; i++){
       Provider.of<Roster>(context, listen: false).setPlayOrder(_roster[i], i, i == 0);
     }
-    Navigator.of(ctx).pushNamed(ScoreboardScreen.routeName);
+    Navigator.of(ctx).pushNamed(SetSettingsScreen.routeName);
   }
 
   void backToFillRoster(BuildContext ctx) {
@@ -128,8 +128,8 @@ class _SetPlayerOrderScreenState extends State<SetPlayerOrderScreen> {
                                 backgroundColor: Theme.of(context).shadowColor,
                                 textStyle: TextStyle(
                                     fontSize: 30, fontWeight: FontWeight.bold)),
-                            onPressed: () => navToScoreboard(context),
-                            child: Text('Ready to Start', style: TextStyle(color: Theme.of(context).canvasColor) ))),
+                            onPressed: () => navToSettings(context),
+                            child: Text('Continue', style: TextStyle(color: Theme.of(context).canvasColor) ))),
                   ]),
             ),
           ],

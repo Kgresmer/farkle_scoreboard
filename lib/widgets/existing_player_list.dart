@@ -81,7 +81,7 @@ class _ExistingPlayerListState extends State<ExistingPlayerList> {
               onPressed: () =>
               {
                 Provider.of<ExistingPlayers>(context, listen: false)
-                    .removePlayer(existingPlayer),
+                    .removePlayer(existingPlayer, context),
               Navigator.of(context).pop(false)
               },
               child: new Text('Yes'),
