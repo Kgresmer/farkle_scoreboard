@@ -20,7 +20,7 @@ class _ScoreInputState extends State<ScoreInput> {
         imageUrl: 'assets/images/dice-one.png'),
     ScoreOption(
         value: 50,
-        description: '1 five',
+        description: '1 Five',
         imageUrl: 'assets/images/dice-five.png'),
     ScoreOption(
         value: 300,
@@ -56,11 +56,15 @@ class _ScoreInputState extends State<ScoreInput> {
         imageUrl: 'assets/images/dice-straight.png'),
     ScoreOption(
         value: 1500,
-        description: '3 pairs',
+        description: '3 Pairs',
         imageUrl: 'assets/images/dice-three-pairs.png'),
     ScoreOption(
+        value: 1500,
+        description: 'Full house',
+        imageUrl: 'assets/images/dice-fullhouse.png'),
+    ScoreOption(
         value: 2500,
-        description: '2 triples',
+        description: '2 Triples',
         imageUrl: 'assets/images/dice-two-triples.png'),
     ScoreOption(
         value: 2000,

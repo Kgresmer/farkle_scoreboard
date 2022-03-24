@@ -73,6 +73,7 @@ flutter:
     - assets/images/dice-4-kind.png
     - assets/images/dice-5-kind.png
     - assets/images/dice-6-kind.png
+    - assets/images/dice-fullhouse.png
     - assets/audio/add_score.mp3
     - assets/images/home_screen_logo.png
 
