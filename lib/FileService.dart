@@ -12,7 +12,11 @@ class FileService {
 
   static Future<File> get _localFile async {
     final path = await _localPath;
-    return File('$path/data.txt');
+    try {
+      return File('$path/data.txt');
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   static Future<List<Player>> readContent() async {
@@ -21,7 +25,13 @@ class FileService {
       String jsonString = await file.readAsString();
       List<Object> objects = jsonDecode(jsonString);
       List<Player> players = [];
-      objects.forEach((p) => players.add(Player.fromJsonMap(p)));
+      objects.forEach((p) =>
+      {
+        players.add(Player.fromJsonMap(p)),
+        print(Player.fromJsonMap(p).name),
+        print(Player.fromJsonMap(p).wins)
+      });
+
       return players;
     } catch (e) {
       print(e.toString());
@@ -31,8 +41,8 @@ class FileService {
 
   static Future<File> writeContent(List<Player> players) async {
     final file = await _localFile;
-    List<Player> defaultPlayers = [new Player(name: 'Kevin'), new Player(name: 'Sigrid')];
-    String jsonUser = jsonEncode(players.length == 0 ? defaultPlayers : players);
-    return file.writeAsString(jsonUser);
+    String jsonPlayers = jsonEncode(players);
+    print(jsonPlayers);
+    return file.writeAsString(jsonPlayers);
   }
 }

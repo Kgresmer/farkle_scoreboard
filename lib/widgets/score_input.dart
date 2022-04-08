@@ -63,13 +63,13 @@ class _ScoreInputState extends State<ScoreInput> {
         description: 'Full house',
         imageUrl: 'assets/images/dice-fullhouse.png'),
     ScoreOption(
-        value: 2500,
-        description: '2 Triples',
-        imageUrl: 'assets/images/dice-two-triples.png'),
-    ScoreOption(
         value: 2000,
         description: '5 of a kind',
         imageUrl: 'assets/images/dice-5-kind.png'),
+    ScoreOption(
+        value: 2500,
+        description: '2 Triples',
+        imageUrl: 'assets/images/dice-two-triples.png'),
     ScoreOption(
         value: 3000,
         description: '6 of a kind',
@@ -100,6 +100,7 @@ class _ScoreInputState extends State<ScoreInput> {
     int currentScore = Provider.of<Scoreboard>(context, listen: false).score;
     int startingScoreEntry = Provider.of<Roster>(context, listen: false).startingScoreEntry;
     RosterPlayer activePlayer = Provider.of<Roster>(context, listen: false).players.firstWhere((p) => p.active);
+    if (activePlayer.player.highestRoll < currentScore) activePlayer.player.highestRoll = currentScore;
     if (activePlayer.score == 0 && currentScore < startingScoreEntry) {
       Fluttertoast.showToast(
           msg: "You have to score above the minimum entry score of $startingScoreEntry",
@@ -187,7 +188,7 @@ class _ScoreInputState extends State<ScoreInput> {
     if (activePlayer.farkles == 2 && Provider.of<Roster>(context).threeFarklesIsMinusAThousand) displayWarningMessage();
 
     return Container(
-      height: MediaQuery.of(context).size.height * 0.96,
+      height: MediaQuery.of(context).size.height * 0.985,
       child:
           Column(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
         Container(
@@ -286,7 +287,7 @@ class _ScoreInputState extends State<ScoreInput> {
                           style: Theme.of(context).textTheme.headlineLarge,
                         ),
                         Image.asset(scoreOptions[index].imageUrl,
-                            width: 180, height: 70, fit: BoxFit.contain)
+                            width: 180, height: 62, fit: BoxFit.contain)
                       ],
                     )),
               );

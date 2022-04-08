@@ -8,7 +8,7 @@ class LandingScreen extends StatelessWidget {
   static const routeName = '/landing';
 
   void navToScoreAGame(BuildContext ctx) {
-    FileService.writeContent([]);
+    //FileService.writeContent([]);
     HapticFeedback.heavyImpact();
     Navigator.of(ctx).pushNamed(FillRosterScreen.routeName);
   }
