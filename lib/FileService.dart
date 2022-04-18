@@ -27,14 +27,11 @@ class FileService {
       List<Player> players = [];
       objects.forEach((p) =>
       {
-        players.add(Player.fromJsonMap(p)),
-        print(Player.fromJsonMap(p).name),
-        print(Player.fromJsonMap(p).wins)
+        players.add(Player.fromJsonMap(p))
       });
 
       return players;
     } catch (e) {
-      print(e.toString());
       return [];
     }
   }
@@ -42,7 +39,6 @@ class FileService {
   static Future<File> writeContent(List<Player> players) async {
     final file = await _localFile;
     String jsonPlayers = jsonEncode(players);
-    print(jsonPlayers);
     return file.writeAsString(jsonPlayers);
   }
 }

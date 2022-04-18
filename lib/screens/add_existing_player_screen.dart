@@ -1,4 +1,8 @@
 import 'package:farkle_scoreboard/widgets/existing_player_list.dart';
+import 'package:provider/provider.dart';
+import '../FileService.dart';
+import '../models/Player.dart';
+import '../providers/existing_players.dart';
 import './fill_roster_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,6 +22,9 @@ class AddExistingPlayerScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    FileService.readContent().then((List<Player> players) => {
+      Provider.of<ExistingPlayers>(context, listen: false).loadPlayers(players)
+    });
 
     return Scaffold(
       appBar: AppBar(

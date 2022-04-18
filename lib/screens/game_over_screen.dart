@@ -1,3 +1,5 @@
+import 'package:farkle_scoreboard/screens/landing_screen.dart';
+
 import '../FileService.dart';
 import '../models/ExistingPlayer.dart';
 import '../providers/existing_players.dart';
@@ -30,7 +32,7 @@ class _GameOverScreenState extends State<GameOverScreen> {
     }
   }
 
-  void backToRoster(BuildContext ctx) {
+  void backToHome(BuildContext ctx) {
     List<RosterPlayer> rps =
         Provider.of<Roster>(context, listen: false).players;
     List<ExistingPlayer> existingPlayers =
@@ -54,7 +56,7 @@ class _GameOverScreenState extends State<GameOverScreen> {
                 .highestRoll
         });
     FileService.writeContent([...existingPlayers.map((e) => e.player)]);
-    Navigator.of(ctx).pushNamed(FillRosterScreen.routeName);
+    Navigator.of(ctx).pushNamed(LandingScreen.routeName);
   }
 
   Future<bool> _backAPage(BuildContext context) async {
@@ -114,7 +116,7 @@ class _GameOverScreenState extends State<GameOverScreen> {
                               style: TextButton.styleFrom(
                                 backgroundColor: Theme.of(context).shadowColor,
                               ),
-                              onPressed: () => backToRoster(context),
+                              onPressed: () => backToHome(context),
                               child: Text('Back to home',
                                   style: TextStyle(
                                       color: Theme.of(context).canvasColor,
