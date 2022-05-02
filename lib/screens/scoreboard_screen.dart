@@ -1,7 +1,6 @@
 import 'package:farkle_scoreboard/screens/fill_roster_screen.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-
 import '../providers/roster.dart';
 import '../widgets/scoreboard_player_list.dart';
 import '../widgets/score_input.dart';
@@ -54,6 +53,9 @@ class _ScoreboardScreenState extends State<ScoreboardScreen> {
   @override
   void initState() {
     super.initState();
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [
+      SystemUiOverlay.bottom,
+    ]);
     Provider.of<Roster>(context, listen: false).restartGame();
   }
 
