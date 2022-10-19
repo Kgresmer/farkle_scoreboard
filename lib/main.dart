@@ -14,15 +14,15 @@ import './providers/existing_players.dart';
 import 'package:flutter/services.dart';
 
 void main() async => {
-  WidgetsFlutterBinding.ensureInitialized(),
-  await SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp],
-  ),
-  runApp(MyApp())
-};
+      WidgetsFlutterBinding.ensureInitialized(),
+      await SystemChrome.setPreferredOrientations(
+        [DeviceOrientation.portraitUp],
+      ),
+      runApp(MyApp())
+    };
 
 class MyApp extends StatelessWidget {
-  static const yellow = const Color(0xD9fccd00);
+  static const yellow = const Color(0xFFfccd00);
   static const blackish = const Color(0xFF3b3530);
   static const teal = const Color(0xD93D798A);
   static const white = const Color(0xF2f3f9f9);
@@ -42,6 +42,7 @@ class MyApp extends StatelessWidget {
         )
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Farkle_Scoreboard',
         theme: ThemeData(
             backgroundColor: blackish,
@@ -51,7 +52,7 @@ class MyApp extends StatelessWidget {
                   primary: white,
                   elevation: 0,
                   textStyle:
-                  TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   padding: EdgeInsets.all(10)),
             ),
             elevatedButtonTheme: ElevatedButtonThemeData(
@@ -76,10 +77,7 @@ class MyApp extends StatelessWidget {
             cardColor: white,
             dividerColor: teal,
             disabledColor: Colors.white54,
-            textTheme: ThemeData
-                .light()
-                .textTheme
-                .copyWith(
+            textTheme: ThemeData.light().textTheme.copyWith(
                 displayLarge: TextStyle(shadows: <Shadow>[
                   Shadow(
                     offset: Offset(2.0, 2.0),

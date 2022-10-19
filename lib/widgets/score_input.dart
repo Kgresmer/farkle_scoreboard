@@ -188,11 +188,10 @@ class _ScoreInputState extends State<ScoreInput> {
     if (activePlayer.farkles == 2 && Provider.of<Roster>(context).threeFarklesIsMinusAThousand) displayWarningMessage();
 
     return Container(
-      height: MediaQuery.of(context).size.height * 0.985,
+      height: MediaQuery.of(context).size.height,
       child:
           Column(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
         Container(
-          margin: EdgeInsets.only(top: 10),
           color: Theme.of(context).shadowColor,
             child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 16, horizontal: 10.0),

@@ -46,14 +46,15 @@ class LandingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: null,
       body: LayoutBuilder(builder: (ctx, constraints) {
         return Column(
           children: <Widget>[
             Container(
-              height: constraints.maxHeight * .8,
+              color: const Color(0xFFfccd00),
+              margin: EdgeInsets.only(bottom: 10),
+              height: constraints.maxHeight * .8 - 10,
               width: double.infinity,
               child: Center(
                 child: Image.asset('assets/images/home_screen_logo.png',
