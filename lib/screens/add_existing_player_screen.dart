@@ -22,7 +22,7 @@ class AddExistingPlayerScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    FileService.readContent().then((List<Player> players) => {
+    FileService.readPlayersContent().then((List<Player> players) => {
       Provider.of<ExistingPlayers>(context, listen: false).loadPlayers(players)
     });
 

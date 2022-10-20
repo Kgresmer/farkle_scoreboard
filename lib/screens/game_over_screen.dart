@@ -55,7 +55,7 @@ class _GameOverScreenState extends State<GameOverScreen> {
                 .player
                 .highestRoll
         });
-    FileService.writeContent([...existingPlayers.map((e) => e.player)]);
+    FileService.writePlayerContent([...existingPlayers.map((e) => e.player)]);
     Navigator.of(ctx).pushNamed(LandingScreen.routeName);
   }
 

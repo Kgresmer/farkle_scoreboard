@@ -37,7 +37,7 @@ class _NewPlayerState extends State<NewPlayer> {
       }
       Provider.of<ExistingPlayers>(context, listen: false)
           .addPlayer(new ExistingPlayer(player: newPlayer, selected: false));
-      FileService.writeContent([...existingPlayers.map((e) => e.player), newPlayer]);
+      FileService.writePlayerContent([...existingPlayers.map((e) => e.player), newPlayer]);
       Navigator.of(context).pop();
     }
   }
