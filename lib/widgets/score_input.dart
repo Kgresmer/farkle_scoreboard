@@ -171,7 +171,7 @@ class _ScoreInputState extends State<ScoreInput> {
         timeInSecForIosWeb: 1,
         backgroundColor: Theme.of(context).cardColor,
         textColor: Theme.of(context).canvasColor,
-        fontSize: 14.0
+        fontSize: 18.0
     );
     setState(() {
       warningSent = true;

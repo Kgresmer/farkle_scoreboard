@@ -21,7 +21,7 @@ class _ExistingPlayerListState extends State<ExistingPlayerList> {
         timeInSecForIosWeb: 1,
         backgroundColor: Theme.of(context).canvasColor,
         textColor: Theme.of(context).cardColor,
-        fontSize: 16.0);
+        fontSize: 20.0);
   }
 
   void selectPlayer(ExistingPlayer existingPlayer) {

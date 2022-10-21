@@ -27,7 +27,7 @@ class _NewPlayerState extends State<NewPlayer> {
           timeInSecForIosWeb: 1,
           backgroundColor: Theme.of(context).canvasColor,
           textColor: Theme.of(context).cardColor,
-          fontSize: 16.0
+          fontSize: 20.0
       );
     } else {
       var newPlayer = new Player(name: nameInput);
