@@ -41,11 +41,6 @@ class _FillRosterScreenState extends State<FillRosterScreen> {
         });
   }
 
-  void backAPage(BuildContext ctx) {
-    HapticFeedback.heavyImpact();
-    Navigator.of(ctx).pop();
-  }
-
   void backToLandingScreen(BuildContext ctx) {
     HapticFeedback.heavyImpact();
     Navigator.of(ctx).pushNamed(LandingScreen.routeName);

@@ -20,7 +20,7 @@ class _ScoreboardScreenState extends State<ScoreboardScreen> {
         isScrollControlled: true,
         builder: (_) {
           return GestureDetector(
-            child: ScoreInput(),
+            child: Scaffold(body: ScoreInput()),
             behavior: HitTestBehavior.opaque,
           );
         });

@@ -96,7 +96,8 @@ class _GameOverScreenState extends State<GameOverScreen> {
       onWillPop: () => _backAPage(context),
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Farkle Scoreboard'),
+          automaticallyImplyLeading: false,
+          title: Center(child: Text('Farkle Scoreboard')),
         ),
         body: LayoutBuilder(builder: (ctx, constraints) {
           return Column(

@@ -5,7 +5,6 @@ import '../providers/existing_players.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class ExistingPlayerList extends StatefulWidget {
   @override
@@ -13,16 +12,6 @@ class ExistingPlayerList extends StatefulWidget {
 }
 
 class _ExistingPlayerListState extends State<ExistingPlayerList> {
-  void _showToast() {
-    Fluttertoast.showToast(
-        msg: "You hit the max player limit of 15",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Theme.of(context).canvasColor,
-        textColor: Theme.of(context).cardColor,
-        fontSize: 20.0);
-  }
 
   void selectPlayer(ExistingPlayer existingPlayer) {
     HapticFeedback.heavyImpact();
@@ -35,10 +24,6 @@ class _ExistingPlayerListState extends State<ExistingPlayerList> {
         Provider.of<Roster>(context, listen: false)
             .addPlayer(existingPlayer.player);
       }
-    } else if (Provider.of<Roster>(context, listen: false).players.length ==
-            15 &&
-        !existingPlayer.selected) {
-      _showToast();
     } else {
       setState(() {
         existingPlayer.selected = !existingPlayer.selected;
