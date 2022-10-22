@@ -131,7 +131,7 @@ class _ScoreboardScreenState extends State<ScoreboardScreen> {
                                         fontSize: 30,
                                         fontWeight: FontWeight.bold)),
                                 onPressed: () => openScoreInput(context),
-                                child: Text('Begin scoring',
+                                child: Text('Go to scoring',
                                     style: TextStyle(
                                         color:
                                             Theme.of(context).canvasColor)))),

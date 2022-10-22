@@ -114,7 +114,6 @@ class _ScoreInputState extends State<ScoreInput> {
     } else {
       Provider.of<Roster>(context, listen: false).updateScore(currentScore);
       Provider.of<Scoreboard>(context, listen: false).clearScore();
-      Navigator.of(context).pop();
     }
   }
 
@@ -198,7 +197,7 @@ class _ScoreInputState extends State<ScoreInput> {
                 child: Row(
                   children: [
                     Expanded(
-                        flex: 8,
+                        flex: 7,
                         child: Column(children: <Widget>[
                           Padding(
                             padding: const EdgeInsets.only(bottom: 8.0),
@@ -247,11 +246,9 @@ class _ScoreInputState extends State<ScoreInput> {
                     Expanded(
                         flex: 2,
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 14.0),
-                          child: IconButton(
-                            iconSize: 40,
-                            color: Theme.of(context).canvasColor,
-                            icon: Icon(Icons.close),
+                          padding: const EdgeInsets.symmetric(horizontal: 0.0),
+                          child: TextButton(
+                            child: Text('View Scores'),
                             onPressed: closeScoreInput,
                           ),
                         ))
