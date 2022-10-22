@@ -114,6 +114,16 @@ class _ScoreInputState extends State<ScoreInput> {
     } else {
       Provider.of<Roster>(context, listen: false).updateScore(currentScore);
       Provider.of<Scoreboard>(context, listen: false).clearScore();
+      RosterPlayer newActivePlayer = Provider.of<Roster>(context, listen: false).players.firstWhere((p) => p.active);
+      Fluttertoast.showToast(
+          msg: "${newActivePlayer.player.name} is now scoring",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.TOP,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Theme.of(context).canvasColor,
+          textColor: Theme.of(context).cardColor,
+          fontSize: 18.0
+      );
     }
   }
 
