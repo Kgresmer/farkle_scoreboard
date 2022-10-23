@@ -117,6 +117,10 @@ class _ScoreInputState extends State<ScoreInput> {
             "You have to score above the minimum entry score of $startingScoreEntry",
             style: TextStyle(fontSize: 20, color: Colors.black)),
         backgroundColor: Theme.of(context).shadowColor,
+        behavior: SnackBarBehavior.floating,
+        margin: EdgeInsets.all(8),
+        elevation: 3,
+        duration: const Duration(seconds: 2),
       );
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     } else {
@@ -131,8 +135,12 @@ class _ScoreInputState extends State<ScoreInput> {
           .firstWhere((p) => p.active);
       final snackBar = SnackBar(
         content: Text("${newActivePlayer.player.name} is now scoring",
-            style: TextStyle(fontSize: 20, color: Colors.black)),
+            style: TextStyle(fontSize: 24, color: Colors.black)),
         backgroundColor: Theme.of(context).shadowColor,
+        behavior: SnackBarBehavior.floating,
+        margin: EdgeInsets.all(8),
+        elevation: 3,
+        duration: const Duration(seconds: 2),
       );
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
@@ -183,8 +191,12 @@ class _ScoreInputState extends State<ScoreInput> {
       final snackBar = SnackBar(
         content: Text(
             "You have two farkles! Three in a row results in -1000 points!",
-            style: TextStyle(fontSize: 20, color: Colors.black)),
+            style: TextStyle(fontSize: 24, color: Colors.black)),
         backgroundColor: Theme.of(context).shadowColor,
+        behavior: SnackBarBehavior.floating,
+        margin: EdgeInsets.all(8),
+        elevation: 3,
+        duration: const Duration(seconds: 2),
       );
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
       setState(() {
