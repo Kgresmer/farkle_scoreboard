@@ -20,7 +20,7 @@ class _ScoreboardScreenState extends State<ScoreboardScreen> {
         isScrollControlled: true,
         builder: (_) {
           return GestureDetector(
-            child: ScoreInput(),
+            child: Scaffold(body: ScoreInput()),
             behavior: HitTestBehavior.opaque,
           );
         });
@@ -131,7 +131,7 @@ class _ScoreboardScreenState extends State<ScoreboardScreen> {
                                         fontSize: 30,
                                         fontWeight: FontWeight.bold)),
                                 onPressed: () => openScoreInput(context),
-                                child: Text('Begin scoring',
+                                child: Text('Go to scoring',
                                     style: TextStyle(
                                         color:
                                             Theme.of(context).canvasColor)))),

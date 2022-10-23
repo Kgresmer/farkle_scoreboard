@@ -1,9 +1,11 @@
+import '../models/Rules.dart';
 import '../providers/roster.dart';
 import './set_player_order_screen.dart';
 import 'package:provider/provider.dart';
 import './scoreboard_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../FileService.dart';
 
 class SetSettingsScreen extends StatefulWidget {
   static const routeName = '/set-settings';
@@ -16,23 +18,45 @@ class _SetSettingsScreenState extends State<SetSettingsScreen> {
   bool farkleRule = false;
   bool onesRule = false;
   bool entryPoint300 = false;
-  bool entryPoint400 = true;
+  bool entryPoint400 = false;
   bool entryPoint500 = false;
 
   @override
   void initState() {
     super.initState();
+    () async {
+      await FileService.readRulesContent().then((Rules rules) => {
+            setState(() {
+              farkleRule = rules.farkleRule;
+              onesRule = rules.onesRule;
+              entryPoint300 = rules.entryPoint300;
+              entryPoint400 = rules.entryPoint400;
+              entryPoint500 = rules.entryPoint500;
+            })
+          });
+    }();
   }
 
   void navToScoreboard(BuildContext ctx) {
     HapticFeedback.heavyImpact();
-    int entryScore = entryPoint300 ? 300 : entryPoint400 ? 400 : 500;
-    Provider.of<Roster>(context, listen: false).setRules(entryScore, farkleRule, onesRule);
+    int entryScore = entryPoint300
+        ? 300
+        : entryPoint400
+            ? 400
+            : 500;
+    Provider.of<Roster>(context, listen: false)
+        .setRules(entryScore, farkleRule, onesRule);
+    Rules newRuleChoices = new Rules(
+        farkleRule, onesRule, entryPoint300, entryPoint400, entryPoint500);
+    FileService.writeRulesContent(newRuleChoices);
     Navigator.of(ctx).pushNamed(ScoreboardScreen.routeName);
   }
 
   void backToSetOrder(BuildContext ctx) {
     HapticFeedback.heavyImpact();
+    Rules newRuleChoices = new Rules(
+        farkleRule, onesRule, entryPoint300, entryPoint400, entryPoint500);
+    FileService.writeRulesContent(newRuleChoices);
     Navigator.of(ctx).pushNamed(SetPlayerOrderScreen.routeName);
   }
 

@@ -1,6 +1,5 @@
 import 'package:farkle_scoreboard/models/ExistingPlayer.dart';
 import 'package:farkle_scoreboard/providers/existing_players.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import '../FileService.dart';
 import '../models/Player.dart';
 import '../providers/roster.dart';
@@ -14,30 +13,30 @@ class NewPlayer extends StatefulWidget {
 
 class _NewPlayerState extends State<NewPlayer> {
   final _nameController = TextEditingController();
+  String warningMessage = "";
 
   void _submitData() {
     final nameInput = _nameController.text.trim();
     if (nameInput.isEmpty) return;
     List<ExistingPlayer> existingPlayers = Provider.of<ExistingPlayers>(context, listen: false).players.values.toList();
     if (existingPlayers.firstWhere((ep) => ep.player.name.toLowerCase() == nameInput.toLowerCase(), orElse: () => null) != null) {
-      Fluttertoast.showToast(
-          msg: "That name is already taken",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Theme.of(context).canvasColor,
-          textColor: Theme.of(context).cardColor,
-          fontSize: 16.0
-      );
+      setState(() {
+        warningMessage = "That name is already taken";
+      });
     } else {
       var newPlayer = new Player(name: nameInput);
 
       if (Provider.of<Roster>(context, listen: false).players.length < 15) {
         Provider.of<Roster>(context, listen: false).addPlayer(newPlayer);
+      } else {
+        setState(() {
+          warningMessage = "Max player limit has been reached";
+        });
+        return;
       }
       Provider.of<ExistingPlayers>(context, listen: false)
           .addPlayer(new ExistingPlayer(player: newPlayer, selected: false));
-      FileService.writeContent([...existingPlayers.map((e) => e.player), newPlayer]);
+      FileService.writePlayerContent([...existingPlayers.map((e) => e.player), newPlayer]);
       Navigator.of(context).pop();
     }
   }
@@ -89,6 +88,11 @@ class _NewPlayerState extends State<NewPlayer> {
                         borderSide:
                             BorderSide(color: Theme.of(context).cardColor))),
                 controller: _nameController,
+                onChanged: (newValue) => {
+                  setState(() {
+                    warningMessage = "";
+                  })
+                },
                 onSubmitted: (_) => _submitData(),
               ),
               Padding(
@@ -99,7 +103,13 @@ class _NewPlayerState extends State<NewPlayer> {
                       style: TextStyle(fontSize: 19),
                     ),
                     onPressed: _submitData),
-              )
+              ),
+              if (warningMessage != "")
+                Padding(
+                  padding: const EdgeInsets.only(top: 16.0, bottom: 0),
+                  child: Center(child: Text(warningMessage, style: TextStyle(color: Theme.of(context).cardColor),)),
+                )
+              ,
             ],
           ),
         ),

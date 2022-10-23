@@ -38,12 +38,14 @@ class Roster with ChangeNotifier {
     notifyListeners();
   }
 
-  void updateScore(int score) {
+  RosterPlayer updateScore(int score) {
+    RosterPlayer current;
     RosterPlayer completedPlayer = _players.firstWhere((rp) => rp.isComplete == true, orElse: () => null);
     final isFinalRound = completedPlayer != null;
     for (int i = 0; i < _players.length; i++) {
       if (_players[i].active == true) {
         RosterPlayer currentActive = _players[i];
+        current = _players[i];
         currentActive.farkles = 0;
         currentActive.score += score;
         currentActive.active = false;
@@ -60,6 +62,7 @@ class Roster with ChangeNotifier {
       }
     }
     notifyListeners();
+    return current;
   }
 
   void addFarkle() {

@@ -5,7 +5,6 @@ import 'package:audioplayers/audioplayers.dart';
 import '../models/RosterPlayer.dart';
 import '../providers/roster.dart';
 import '../providers/scoreboard.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class ScoreInput extends StatefulWidget {
   @override
@@ -86,35 +85,64 @@ class _ScoreInputState extends State<ScoreInput> {
       prefix: 'assets/audio/',
       fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP),
     );
-    ScoreOption onesOption = scoreOptions.firstWhere((op) => op.description == '3 Ones');
+    ScoreOption onesOption =
+        scoreOptions.firstWhere((op) => op.description == '3 Ones');
     if (Provider.of<Roster>(context, listen: false).threeOnesIsAThousand) {
       onesOption.value = 1000;
-      scoreOptions.insert(8, ScoreOption(
-          value: 1500,
-          description: '4 Ones',
-          imageUrl: 'assets/images/dice-4-ones.png'));
+      scoreOptions.insert(
+          8,
+          ScoreOption(
+              value: 1500,
+              description: '4 Ones',
+              imageUrl: 'assets/images/dice-4-ones.png'));
     }
+  }
+
+  void closeScoreInput() {
+    Navigator.of(context).pop();
   }
 
   void _bankIt() {
     int currentScore = Provider.of<Scoreboard>(context, listen: false).score;
-    int startingScoreEntry = Provider.of<Roster>(context, listen: false).startingScoreEntry;
-    RosterPlayer activePlayer = Provider.of<Roster>(context, listen: false).players.firstWhere((p) => p.active);
-    if (activePlayer.player.highestRoll < currentScore) activePlayer.player.highestRoll = currentScore;
+    int startingScoreEntry =
+        Provider.of<Roster>(context, listen: false).startingScoreEntry;
+    RosterPlayer activePlayer = Provider.of<Roster>(context, listen: false)
+        .players
+        .firstWhere((p) => p.active);
+    if (activePlayer.player.highestRoll < currentScore)
+      activePlayer.player.highestRoll = currentScore;
     if (activePlayer.score == 0 && currentScore < startingScoreEntry) {
-      Fluttertoast.showToast(
-          msg: "You have to score above the minimum entry score of $startingScoreEntry",
-          toastLength: Toast.LENGTH_LONG,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Theme.of(context).canvasColor,
-          textColor: Theme.of(context).cardColor,
-          fontSize: 16.0
+      final snackBar = SnackBar(
+        content: Text(
+            "You have to score above the minimum entry score of $startingScoreEntry",
+            style: TextStyle(fontSize: 20, color: Colors.black)),
+        backgroundColor: Theme.of(context).shadowColor,
+        behavior: SnackBarBehavior.floating,
+        margin: EdgeInsets.all(8),
+        elevation: 3,
+        duration: const Duration(seconds: 2),
       );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
     } else {
-      Provider.of<Roster>(context, listen: false).updateScore(currentScore);
+      RosterPlayer playerWhoWasJustUpdated =
+          Provider.of<Roster>(context, listen: false).updateScore(currentScore);
+      if (playerWhoWasJustUpdated.isComplete) {
+        closeScoreInput();
+      }
       Provider.of<Scoreboard>(context, listen: false).clearScore();
-      Navigator.of(context).pop();
+      RosterPlayer newActivePlayer = Provider.of<Roster>(context, listen: false)
+          .players
+          .firstWhere((p) => p.active);
+      final snackBar = SnackBar(
+        content: Text("${newActivePlayer.player.name} is now scoring",
+            style: TextStyle(fontSize: 24, color: Colors.black)),
+        backgroundColor: Theme.of(context).shadowColor,
+        behavior: SnackBarBehavior.floating,
+        margin: EdgeInsets.all(8),
+        elevation: 3,
+        duration: const Duration(seconds: 2),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
   }
 
@@ -142,10 +170,6 @@ class _ScoreInputState extends State<ScoreInput> {
     Navigator.of(context).pop();
   }
 
-  void closeScoreInput() {
-    Navigator.of(context).pop();
-  }
-
   void undoLastScoreUpdate() {
     Vibration.vibrate(duration: 130, amplitude: 65);
     if (Provider.of<Scoreboard>(context, listen: false).scoreUpdates.length >
@@ -163,19 +187,22 @@ class _ScoreInputState extends State<ScoreInput> {
   }
 
   void displayWarningMessage() {
-    if (!warningSent)
-    Fluttertoast.showToast(
-        msg: "You have two farkles! Three in a row results in -1000 points!",
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.CENTER,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Theme.of(context).cardColor,
-        textColor: Theme.of(context).canvasColor,
-        fontSize: 14.0
-    );
-    setState(() {
-      warningSent = true;
-    });
+    if (!warningSent) {
+      final snackBar = SnackBar(
+        content: Text(
+            "You have two farkles! Three in a row results in -1000 points!",
+            style: TextStyle(fontSize: 24, color: Colors.black)),
+        backgroundColor: Theme.of(context).shadowColor,
+        behavior: SnackBarBehavior.floating,
+        margin: EdgeInsets.all(8),
+        elevation: 3,
+        duration: const Duration(seconds: 2),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      setState(() {
+        warningSent = true;
+      });
+    }
   }
 
   @override
@@ -185,28 +212,29 @@ class _ScoreInputState extends State<ScoreInput> {
         .players
         .firstWhere((p) => p.active == true);
 
-    if (activePlayer.farkles == 2 && Provider.of<Roster>(context).threeFarklesIsMinusAThousand) displayWarningMessage();
+    if (activePlayer.farkles == 2 &&
+        Provider.of<Roster>(context).threeFarklesIsMinusAThousand)
+      displayWarningMessage();
 
     return Container(
       height: MediaQuery.of(context).size.height,
       child:
           Column(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
         Container(
-          color: Theme.of(context).shadowColor,
+            color: Theme.of(context).shadowColor,
             child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 16, horizontal: 10.0),
                 child: Row(
                   children: [
                     Expanded(
-                        flex: 8,
+                        flex: 7,
                         child: Column(children: <Widget>[
                           Padding(
                             padding: const EdgeInsets.only(bottom: 8.0),
                             child: Row(
                               children: <Widget>[
                                 DefaultTextStyle(
-                                  style:
-                                      Theme.of(context).textTheme.bodyMedium,
+                                  style: Theme.of(context).textTheme.bodyMedium,
                                   child: Text(
                                       '${activePlayer.player.name}\'s current score: '),
                                 ),
@@ -220,8 +248,7 @@ class _ScoreInputState extends State<ScoreInput> {
                           Row(
                             children: <Widget>[
                               DefaultTextStyle(
-                                style:
-                                    Theme.of(context).textTheme.bodyMedium,
+                                style: Theme.of(context).textTheme.bodyMedium,
                                 child: Text('Current turn total: '),
                               ),
                               DefaultTextStyle(
@@ -230,14 +257,13 @@ class _ScoreInputState extends State<ScoreInput> {
                                   child: Text('$currentScore'),
                                   style: animated
                                       ? TextStyle(
-                                    color: Theme.of(context).canvasColor,
-                                    fontSize: 26,
-                                  )
+                                          color: Theme.of(context).canvasColor,
+                                          fontSize: 26,
+                                        )
                                       : TextStyle(
-                                    color: Theme.of(context).canvasColor,
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.bold
-                                  ),
+                                          color: Theme.of(context).canvasColor,
+                                          fontSize: 22,
+                                          fontWeight: FontWeight.bold),
                                   duration: Duration(milliseconds: 200),
                                 ),
                               )
@@ -247,11 +273,9 @@ class _ScoreInputState extends State<ScoreInput> {
                     Expanded(
                         flex: 2,
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 14.0),
-                          child: IconButton(
-                            iconSize: 40,
-                            color: Theme.of(context).canvasColor,
-                            icon: Icon(Icons.close),
+                          padding: const EdgeInsets.symmetric(horizontal: 0.0),
+                          child: TextButton(
+                            child: Text('View Scores'),
                             onPressed: closeScoreInput,
                           ),
                         ))
@@ -352,7 +376,8 @@ class ScoreOption {
   final String description;
   final String imageUrl;
 
-  ScoreOption({@required this.value,
-    @required this.description,
-    @required this.imageUrl});
+  ScoreOption(
+      {@required this.value,
+      @required this.description,
+      @required this.imageUrl});
 }

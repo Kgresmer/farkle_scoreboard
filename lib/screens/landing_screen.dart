@@ -44,76 +44,83 @@ class LandingScreen extends StatelessWidget {
         });
   }
 
+  Future<bool> onWillPop(context) {
+    SystemNavigator.pop();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: null,
-      body: LayoutBuilder(builder: (ctx, constraints) {
-        return Column(
-          children: <Widget>[
-            Container(
-              color: const Color(0xFFfccd00),
-              margin: EdgeInsets.only(bottom: 10),
-              height: constraints.maxHeight * .8 - 10,
-              width: double.infinity,
-              child: Center(
-                child: Image.asset('assets/images/home_screen_logo.png',
-                    width: constraints.maxWidth,
-                    height: constraints.maxHeight * .8,
-                    fit: BoxFit.contain),
+    return WillPopScope(
+      onWillPop: () => onWillPop(context),
+      child: Scaffold(
+        appBar: null,
+        body: LayoutBuilder(builder: (ctx, constraints) {
+          return Column(
+            children: <Widget>[
+              Container(
+                color: const Color(0xFFfccd00),
+                margin: EdgeInsets.only(bottom: 10),
+                height: constraints.maxHeight * .8 - 10,
+                width: double.infinity,
+                child: Center(
+                  child: Image.asset('assets/images/home_screen_logo.png',
+                      width: constraints.maxWidth,
+                      height: constraints.maxHeight * .8,
+                      fit: BoxFit.contain),
+                ),
               ),
-            ),
-            Container(
-              height: constraints.maxHeight * .2,
-              width: double.infinity,
-              child: Column(
-                children: <Widget>[
-                  Row(
+              Container(
+                height: constraints.maxHeight * .2,
+                width: double.infinity,
+                child: Column(
+                  children: <Widget>[
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          Container(
+                              height: constraints.maxHeight * .09,
+                              width: constraints.maxWidth - 25,
+                              child: TextButton(
+                                  style: TextButton.styleFrom(
+                                      primary: Theme.of(context).canvasColor,
+                                      backgroundColor:
+                                          Theme.of(context).shadowColor,
+                                      textStyle: TextStyle(
+                                          fontSize: 30,
+                                          fontWeight: FontWeight.bold)),
+                                  onPressed: () => navToScoreAGame(context),
+                                  child: Text('Score A Game'))),
+                        ]),
+                    SizedBox(
+                      height: constraints.maxHeight * .01,
+                    ),
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
                         Container(
                             height: constraints.maxHeight * .09,
-                            width: constraints.maxWidth - 25,
+                            width: constraints.maxWidth / 2 - 20,
                             child: TextButton(
-                                style: TextButton.styleFrom(
-                                    primary: Theme.of(context).canvasColor,
-                                    backgroundColor:
-                                        Theme.of(context).shadowColor,
-                                    textStyle: TextStyle(
-                                        fontSize: 30,
-                                        fontWeight: FontWeight.bold)),
-                                onPressed: () => navToScoreAGame(context),
-                                child: Text('Score A Game'))),
-                      ]),
-                  SizedBox(
-                    height: constraints.maxHeight * .01,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      Container(
-                          height: constraints.maxHeight * .09,
-                          width: constraints.maxWidth / 2 - 20,
-                          child: TextButton(
-                              onPressed: () => navToExistingPlayers(context),
-                              child: Text('Player Stats'))),
-                      Container(
-                          height: constraints.maxHeight * .09,
-                          width: constraints.maxWidth / 2 - 20,
-                          child: TextButton(
-                              onPressed: () => showRulesModal(
-                                  context,
-                                  constraints.maxHeight * .8,
-                                  constraints.maxWidth * .8),
-                              child: Text('Rules')))
-                    ],
-                  )
-                ],
+                                onPressed: () => navToExistingPlayers(context),
+                                child: Text('Player Stats'))),
+                        Container(
+                            height: constraints.maxHeight * .09,
+                            width: constraints.maxWidth / 2 - 20,
+                            child: TextButton(
+                                onPressed: () => showRulesModal(
+                                    context,
+                                    constraints.maxHeight * .8,
+                                    constraints.maxWidth * .8),
+                                child: Text('Rules')))
+                      ],
+                    )
+                  ],
+                ),
               ),
-            ),
-          ],
-        );
-      }),
+            ],
+          );
+        }),
+      ),
     );
   }
 }

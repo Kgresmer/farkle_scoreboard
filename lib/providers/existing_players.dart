@@ -27,7 +27,7 @@ class ExistingPlayers with ChangeNotifier {
   void removePlayer(ExistingPlayer player, [BuildContext context]) {
     _players.remove(player.player.id);
     Provider.of<Roster>(context, listen: false).removePlayer(player.player);
-    FileService.writeContent([..._players.values.map((e) => e.player)]);
+    FileService.writePlayerContent([..._players.values.map((e) => e.player)]);
     notifyListeners();
   }
 
