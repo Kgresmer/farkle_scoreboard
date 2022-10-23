@@ -13,20 +13,25 @@ class NewPlayer extends StatefulWidget {
 
 class _NewPlayerState extends State<NewPlayer> {
   final _nameController = TextEditingController();
+  String warningMessage = "";
 
   void _submitData() {
     final nameInput = _nameController.text.trim();
     if (nameInput.isEmpty) return;
     List<ExistingPlayer> existingPlayers = Provider.of<ExistingPlayers>(context, listen: false).players.values.toList();
     if (existingPlayers.firstWhere((ep) => ep.player.name.toLowerCase() == nameInput.toLowerCase(), orElse: () => null) != null) {
-      //todo show "That name is already taken"
+      setState(() {
+        warningMessage = "That name is already taken";
+      });
     } else {
       var newPlayer = new Player(name: nameInput);
 
       if (Provider.of<Roster>(context, listen: false).players.length < 15) {
         Provider.of<Roster>(context, listen: false).addPlayer(newPlayer);
       } else {
-        //todo show "Max player limit hit"
+        setState(() {
+          warningMessage = "Max player limit has been reached";
+        });
       }
       Provider.of<ExistingPlayers>(context, listen: false)
           .addPlayer(new ExistingPlayer(player: newPlayer, selected: false));
@@ -82,6 +87,11 @@ class _NewPlayerState extends State<NewPlayer> {
                         borderSide:
                             BorderSide(color: Theme.of(context).cardColor))),
                 controller: _nameController,
+                onChanged: (newValue) => {
+                  setState(() {
+                    warningMessage = "";
+                  })
+                },
                 onSubmitted: (_) => _submitData(),
               ),
               Padding(
@@ -92,7 +102,13 @@ class _NewPlayerState extends State<NewPlayer> {
                       style: TextStyle(fontSize: 19),
                     ),
                     onPressed: _submitData),
-              )
+              ),
+              if (warningMessage != "")
+                Padding(
+                  padding: const EdgeInsets.only(top: 16.0, bottom: 0),
+                  child: Center(child: Text(warningMessage, style: TextStyle(color: Theme.of(context).cardColor),)),
+                )
+              ,
             ],
           ),
         ),
