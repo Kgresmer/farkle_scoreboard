@@ -1,3 +1,5 @@
+import 'package:navigation_history_observer/navigation_history_observer.dart';
+
 import './screens/game_over_screen.dart';
 import './providers/scoreboard.dart';
 import './providers/roster.dart';
@@ -123,6 +125,7 @@ class MyApp extends StatelessWidget {
           // could be 404 page - fallback page
           return MaterialPageRoute(builder: (ctx) => LandingScreen());
         },
+        navigatorObservers: [NavigationHistoryObserver()],
       ),
     );
   }
