@@ -32,6 +32,7 @@ class _NewPlayerState extends State<NewPlayer> {
         setState(() {
           warningMessage = "Max player limit has been reached";
         });
+        return;
       }
       Provider.of<ExistingPlayers>(context, listen: false)
           .addPlayer(new ExistingPlayer(player: newPlayer, selected: false));
